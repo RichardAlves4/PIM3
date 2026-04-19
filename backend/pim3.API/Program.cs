@@ -1,9 +1,17 @@
+using Microsoft.EntityFrameworkCore; // NOVO: Necessário para o UseSqlServer
+using pim3.API.Data; // NOVO: Substitua pelo namespace correto da sua pasta Data
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// --- ADICIONE ESTA LINHA ABAIXO ---
+// Configura o Banco de Dados usando a ConnectionString do appsettings.json
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// ---------------------------------
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+// OpenAPI (Swagger)
 builder.Services.AddOpenApi();
 
 var app = builder.Build();

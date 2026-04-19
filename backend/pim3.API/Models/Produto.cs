@@ -1,6 +1,6 @@
 ﻿namespace pim3.API.Models
 {
-    public class Produtos
+    public class Produto
     {
         public int Id { get; set; }
         public string Nome { get; set; } = string.Empty;
