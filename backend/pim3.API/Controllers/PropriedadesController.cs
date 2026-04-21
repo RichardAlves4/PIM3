@@ -18,14 +18,14 @@ namespace pim3.API.Controllers
 
         // GET: api/Propriedades (READ - Listar tudo)
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Propriedades>>> GetPropriedades()
+        public async Task<ActionResult<IEnumerable<Propriedade>>> GetPropriedades()
         {
             return await _context.Propriedades.ToListAsync();
         }
 
         // GET: api/Propriedades/5 (READ - Ver um específico)
         [HttpGet("{id}")]
-        public async Task<ActionResult<Propriedades>> GetPropriedade(int id)
+        public async Task<ActionResult<Propriedade>> GetPropriedade(int id)
         {
             var propriedade = await _context.Propriedades.FindAsync(id);
             if (propriedade == null) return NotFound();
@@ -34,7 +34,7 @@ namespace pim3.API.Controllers
 
         // POST: api/Propriedades (CREATE - Cadastrar)
         [HttpPost]
-        public async Task<ActionResult<Propriedades>> PostPropriedade(Propriedades propriedade)
+        public async Task<ActionResult<Propriedade>> PostPropriedade(Propriedade propriedade)
         {
             _context.Propriedades.Add(propriedade);
             await _context.SaveChangesAsync();
@@ -44,7 +44,7 @@ namespace pim3.API.Controllers
 
         // PUT: api/Propriedades/5 (UPDATE - Editar)
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPropriedade(int id, Propriedades propriedade)
+        public async Task<IActionResult> PutPropriedade(int id, Propriedade propriedade)
         {
             if (id != propriedade.Id) return BadRequest();
 
