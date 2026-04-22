@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("pim3.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+34519b1447b265432d7be0e6498d0c3821ee1277")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f0815c08c4e58578df4860063ce092f6a5759f76")]
 [assembly: System.Reflection.AssemblyProductAttribute("pim3.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("pim3.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

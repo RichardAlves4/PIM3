@@ -1,0 +1,7 @@
+# Use this workspace to collaborate
+workspace:
+  id: c359527a-2541-4257-8e5a-480bf63f47c2
+
+localResources:
+  specs:
+    - ..\obj\Debug\net10.0\EndpointInfo\pim3.API.json
