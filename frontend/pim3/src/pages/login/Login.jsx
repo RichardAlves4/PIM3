@@ -12,7 +12,7 @@ export function Login() {
           <h1>Acessar Conta</h1>
           <FormLogin/>
           
-            <Link className={styles.link}>Deseja abrir uma franquia? clique aqui!</Link>
+            <Link to='/' className={styles.link}>Deseja abrir uma franquia? clique aqui!</Link>
           
         </div>
     </div>
