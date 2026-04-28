@@ -8,11 +8,11 @@ import styles from './formLogin.module.css'
 const schama = yup.object({
   userAccess: yup
   .string()
-  .required("Campo Obrigatório")
+  .required("*Campo Obrigatório")
   .typeError("Usuário Inválido"),
   password: yup
   .string()
-  .required("Campo Obrigatório")
+  .required("*Campo Obrigatório")
   .typeError("Senha Inválido"),
 });
 2;
@@ -48,7 +48,7 @@ export function FormLogin() {
             name='userAccess'
             {...register("userAccess")}/>
           {errors.userAccess && (
-            <span className="error">{errors.userAccess.message}</span>
+            <span className={styles.error}>{errors.userAccess.message}</span>
           )}
         </div>
 
@@ -59,13 +59,13 @@ export function FormLogin() {
             placeholder="Senha"
             {...register("password")}/>
           {errors.password && (
-            <span className="error">{errors.password.message}</span>
+            <span className={styles.error}>{errors.password.message}</span>
           )}
         </div>
 
         "ChangePass"
 
-        <button type="submit" disabled={isSubmitting}>
+        <button type="submit" disabled={isSubmitting} className={styles.button}>
           {isSubmitting ? "Enviando..." : "Cadastrar"}
         </button>
       </form>

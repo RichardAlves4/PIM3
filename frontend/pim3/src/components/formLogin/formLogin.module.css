@@ -1,11 +1,14 @@
 .form {
   display: flex;
-  width: 50%;
+  width: 60% !important ;
   flex-direction: column;
+  gap: 0.5rem;  
+  align-items: center;
 }
 
 .field {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 5px;
 }
@@ -27,3 +30,24 @@
   transform: scale(1.02);
 }
 
+.error {
+  color: red;
+}
+
+.button {
+  background-color: #2A9D8F;
+  color: #ffff;
+  width: 50%;
+  height: 2.5rem;
+  font-size: 20px;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+  box-shadow: 5px 5px 0px black; /* Efeito de brilho suave */
+  transform: scale(1.02);
+}
