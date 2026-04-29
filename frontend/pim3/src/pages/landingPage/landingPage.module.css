@@ -1,0 +1,54 @@
+.main {
+  background-color: #B8D1C5;
+}
+
+.reasonCadastroContainer {
+  display: flex;
+}
+
+.reasonContainer {
+  width: 50%;
+  background-color: #9ABCAC;
+}
+
+.cadastroContainer {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.cadastroContainer > h1{
+  font-size: 58px;
+}
+
+.deliveryContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  padding-bottom: 100px;
+  gap: 20px;
+}
+
+.logoMarcasContainer {
+  display: flex;
+  gap: 60px;
+}
+
+.logoMarcasContainer img{
+  width: 150px;
+  height: 150px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  background-color: #264653;
+}
+
+.footer p {
+  color: #fff;
+}
