@@ -33,8 +33,6 @@ export function FormLogin() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
-
     reset();
   };
 
@@ -66,7 +64,7 @@ export function FormLogin() {
         "ChangePass"
 
         <button type="submit" disabled={isSubmitting} className={styles.button}>
-          {isSubmitting ? "Enviando..." : "Cadastrar"}
+          {isSubmitting ? "Enviando..." : "Entrar"}
         </button>
       </form>
   )
