@@ -15,7 +15,29 @@ const schama = yup.object({
   .required("*Campo Obrigatório")
   .typeError("Senha Inválido"),
 });
-2;
+
+const onSubmit = async (data) => {
+  try {
+    const response = await api.get('/Propriedades'); 
+    const unidades = response.data;
+
+    const usuarioEncontrado = unidades.find(u => u.nome === data.userAccess && data.password === "123mudar");
+
+    if (usuarioEncontrado) {
+      localStorage.setItem("unidadeLogada", JSON.stringify(usuarioEncontrado));
+      localStorage.setItem("isAdmin", usuarioEncontrado.ehFranqueadora ? "true" : "false");
+      
+      localStorage.setItem("token_simulado", "logado_com_sucesso");
+
+      alert(`Bem-vindo, ${usuarioEncontrado.nome}!`);
+      window.location.href = usuarioEncontrado.ehFranqueadora ? "/admin" : "/dashboard-franquia";
+    } else {
+      alert("Usuário não encontrado ou senha padrão incorreta!");
+    }
+  } catch (error) {
+    console.error("Erro ao validar login:", error);
+  }
+};
 
 export function FormLogin() {
   const {

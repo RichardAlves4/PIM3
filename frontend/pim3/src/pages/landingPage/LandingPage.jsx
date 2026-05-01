@@ -1,35 +1,51 @@
-import React from 'react'
-import { ReasonCards } from '../../components/reasonCards/ReasonCards'
+import React, { useState, useEffect } from 'react';
 import { FormCadastro } from '../../components/formCadastro/FormCadastro'
+import api from '../../services/api'; 
 
 import styles from './landingPage.module.css'
 
-export function LandingPage() {
-  return (
-    <main className={styles.main}>
-      <section className={styles.reasonCadastroContainer}>
-        <div className={styles.reasonContainer}>
-          <h1>Por que fazer parte da nossa rede de restaurantes?</h1>
-          <ReasonCards/>
-        </div>
-        <div className={styles.cadastroContainer}>
-          <h1>Torne-se um franquiado</h1>
-          <FormCadastro/>
-        </div>
-      </section>
 
-      <section className={styles.deliveryContainer}>
-        <h1>Estamos nos principais aplicativos de entrega:</h1>
-        <div className={styles.logoMarcasContainer}>
-          <img src="./src/assets/ifood.png" alt="ifood" />
-          <img src="./src/assets/keeta.png" alt="keeta" />
-          <img src="./src/assets/99food.png" alt="99food" />
-          <img src="./src/assets/ubereats.png" alt="ubereats" />
-        </div>
-      </section>
-      <footer className={styles.footer}>
-        <p>© Copyright 2025. Todos os direitos reservados. Dimmy’s Burger</p>
-      </footer>
-    </main>
-  )
+
+export function LandingPage() {
+  const [modalAberto, setModalAberto] = useState(false);
+  const [unidades, setUnidades] = useState([]);
+
+  // 1. Crie a função que o console disse que está faltando
+  async function buscarUnidadesDoBanco() {
+    try {
+      const response = await api.get('/Propriedades'); // Endpoint do seu C#
+      setUnidades(response.data);
+    } catch (error) {
+      console.error("Erro ao carregar unidades:", error);
+    }
+  }
+
+  // 2. Carrega as unidades assim que a página abrir
+  useEffect(() => {
+    buscarUnidadesDoBanco();
+  }, []);
+
+  return (
+    <div>
+      <h1>Gestão de Franquias - Dimmy's Burger</h1>
+      
+      <button onClick={() => setModalAberto(true)}>
+        Nova Unidade
+      </button>
+
+      {/* 3. Agora a função existe e pode ser passada para o Modal */}
+      <FormCadastro 
+        isOpen={modalAberto} 
+        onClose={() => setModalAberto(false)} 
+        onSuccess={buscarUnidadesDoBanco} 
+      />
+
+      {/* Lista para testar se está vindo do banco */}
+      <ul>
+        {unidades.map(u => (
+          <li key={u.id}>{u.nome} - {u.cidade}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }

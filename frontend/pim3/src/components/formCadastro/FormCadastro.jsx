@@ -1,177 +1,107 @@
-import React from 'react'
+import React from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { PatternFormat } from 'react-number-format';
+import * as yup from "yup";
+import api from '../../services/api'; // Ajuste o caminho para sua instância do Axios
 
-import styles from './formCadastro.module.css'
+import styles from './formCadastro.module.css';
 
-const schama = yup.object({
-  name: yup
-    .string()
-    .required("*O nome é obrigatório")
-    .min(3, "O nome deve ter pelo menos 3 caracteres"),
-  
-  lastName: yup
-    .string()
-    .required("*O sobrenome é obrigatório"),
-  
-  email: yup
-    .string()
-    .email("*Digite um e-mail válido")
-    .required("*O e-mail é obrigatório"),
-  
-  telefone: yup
-    .string()
-    .required("*O telefone é obrigatório")
-    .matches(/^\d{10,11}$/, "Digite apenas números (com DDD)"),
-  
-  uf: yup
-    .string()
-    .required("*Selecione o UF")
-    .length(2, "Use apenas a sigla (ex: SP)"),
-  
-  cidade: yup
-    .string()
-    .required("*A cidade é obrigatória"),
-  
-  quantoEsperaInvestir: yup
-    .string()
-    .required("*Selecione uma faixa de investimento")
+const schema = yup.object({
+  nome: yup.string().required("*O nome da unidade é obrigatório").min(3, "Mínimo 3 caracteres"),
+  razaoSocial: yup.string().required("*A Razão Social é obrigatória"),
+  cnpj: yup.string().required("*O CNPJ é obrigatório").length(14, "O CNPJ deve conter 14 números"),
+  uf: yup.string().required("*O UF é obrigatório").length(2, "Use a sigla (ex: SP)"),
+  taxaRoyalties: yup.number().transform((value) => (isNaN(value) ? undefined : value)).required("*Defina a taxa")
 });
-2;
 
-export function FormCadastro() {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    defaultValues: {
-      name: "",
-      lastName: "",
-      email: "",
-      telefone: "",
-      uf: "",
-      cidade: "",
-      quantoEsperaInvestir: ""
-    },
-    resolver: yupResolver(schama), // Certifique-se que o nome da variável é 'schama' ou 'schema'
+export function FormCadastro({ isOpen, onClose, onSuccess }) {
+  const { control, handleSubmit, reset, register, formState: { errors, isSubmitting } } = useForm({
+    defaultValues: { nome: "", razaoSocial: "", cnpj: "", uf: "", taxaRoyalties: "" },
+    resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
+  if (!isOpen) return null; // Não renderiza nada se estiver fechado
+
+  const onSubmit = async (data) => {
+    try {
+      const payload = {
+        ...data,
+        ehFranqueadora: false, // Matriz geralmente já existe, novas são filiais
+        dataAbertura: new Date().toISOString()
+      };
+
+      await api.post('/Propriedades', payload);
+      alert("Unidade cadastrada com sucesso!");
+      reset();
+      onSuccess(); // Função para atualizar a lista de unidades na tela principal
+      onClose();   // Fecha o modal
+    } catch (error) {
+      console.error("Erro na API:", error.response?.data);
+      alert("Erro ao cadastrar. Verifique se o CNPJ já existe.");
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      {/* NOME */}
-      <div className={styles.field}>
-        <label htmlFor="name">Nome:</label>
-        <input
-          id="name"
-          type="text"
-          placeholder="Digite seu nome..."
-          {...register("name")}
-        />
-        {errors.name && <span className={styles.error}>{errors.name.message}</span>}
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContainer}>
+        <div className={styles.modalHeader}>
+          <h2>Cadastrar Nova Franquia</h2>
+          <button onClick={onClose} className={styles.closeBtn}>&times;</button>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          <div className={styles.field}>
+            <label htmlFor="nome">Nome da Unidade (Fantasia):</label>
+            <input id="nome" type="text" {...register("nome")} />
+            {errors.nome && <span className={styles.error}>{errors.nome.message}</span>}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="razaoSocial">Razão Social:</label>
+            <input id="razaoSocial" type="text" {...register("razaoSocial")} />
+            {errors.razaoSocial && <span className={styles.error}>{errors.razaoSocial.message}</span>}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="cnpj">CNPJ:</label>
+            <Controller
+              name="cnpj"
+              control={control}
+              render={({ field: { onChange, value, ...fieldProps } }) => (
+                <PatternFormat
+                  {...fieldProps}
+                  format="##.###.###/####-##"
+                  onValueChange={(values) => onChange(values.value)}
+                  value={value}
+                />
+              )}
+            />
+            {errors.cnpj && <span className={styles.error}>{errors.cnpj.message}</span>}
+          </div>
+
+          <div className={styles.row}>
+            <div className={styles.field}>
+              <label htmlFor="uf">UF:</label>
+              <input id="uf" type="text" maxLength="2" {...register("uf")} />
+              {errors.uf && <span className={styles.error}>{errors.uf.message}</span>}
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="taxaRoyalties">Royalties (%):</label>
+              <input id="taxaRoyalties" type="number" step="0.01" {...register("taxaRoyalties")} />
+              {errors.taxaRoyalties && <span className={styles.error}>{errors.taxaRoyalties.message}</span>}
+            </div>
+          </div>
+
+          <div className={styles.modalActions}>
+            <button type="button" onClick={onClose} className={styles.cancelBtn}>Cancelar</button>
+            <button type="submit" disabled={isSubmitting} className={styles.button}>
+              {isSubmitting ? "Salvando..." : "Cadastrar Unidade"}
+            </button>
+          </div>
+        </form>
       </div>
-
-      {/* SOBRENOME */}
-      <div className={styles.field}>
-        <label htmlFor="lastName">Sobrenome:</label>
-        <input
-          id="lastName"
-          type="text"
-          placeholder="Digite seu sobrenome..."
-          {...register("lastName")}
-        />
-        {errors.lastName && <span className={styles.error}>{errors.lastName.message}</span>}
-      </div>
-
-      {/* EMAIL */}
-      <div className={styles.field}>
-        <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="Digite seu email..."
-          {...register("email")}
-        />
-        {errors.email && <span className={styles.error}>{errors.email.message}</span>}
-      </div>
-
-      <div className={styles.field}>
-  <label htmlFor="telefone">Telefone:</label>
-  <Controller
-    name="telefone"
-    control={control}
-    render={({ field: { onChange, value, ...fieldProps } }) => (
-      <PatternFormat
-        {...fieldProps}
-        format="(##) #####-####"
-        mask="_"
-        type="tel"
-        id="telefone"
-        placeholder="(__) _____-____"
-        value={value}
-        onValueChange={(values) => {
-          // values.value entrega apenas os números (ex: 11999998888)
-          // Isso é ótimo para salvar no banco de dados depois!
-          onChange(values.value); 
-        }}
-        className={errors.telefone ? styles.inputError : ""}
-      />
-    )}
-  />
-  {errors.telefone && <span className={styles.error}>{errors.telefone.message}</span>}
-</div>
-
-      {/* UF */}
-      <div className={styles.field}>
-        <label htmlFor="uf">UF:</label>
-        <input
-          id="uf"
-          type="text"
-          maxlength='2'
-          placeholder="Ex: SP"
-          {...register("uf")}
-        />
-        {errors.uf && <span className={styles.error}>{errors.uf.message}</span>}
-      </div>
-
-      {/* CIDADE */}
-      <div className={styles.field}>
-        <label htmlFor="cidade">Cidade:</label>
-        <input
-          id="cidade"
-          type="text"
-          placeholder="Digite sua cidade..."
-          {...register("cidade")}
-        />
-        {errors.cidade && <span className={styles.error}>{errors.cidade.message}</span>}
-      </div>
-
-      {/* QUANTO ESPERA INVESTIR */}
-      <div className={styles.field}>
-        <label htmlFor="quantoEsperaInvestir">Quanto espera investir?:</label>
-        <input
-          id="quantoEsperaInvestir"
-          type="text"
-          placeholder="Ex: R$ 50.000,00"
-          {...register("quantoEsperaInvestir")}
-        />
-        {errors.quantoEsperaInvestir && (
-          <span className={styles.error}>{errors.quantoEsperaInvestir.message}</span>
-        )}
-      </div>
-
-      <button type="submit" disabled={isSubmitting} className={styles.button}>
-        {isSubmitting ? "Enviando..." : "Enviar"}
-      </button>
-    </form>
+    </div>
   );
 }
