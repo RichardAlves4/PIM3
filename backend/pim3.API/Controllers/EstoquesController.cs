@@ -26,17 +26,17 @@ namespace pim3.API.Controllers
         }
 
         [HttpPost]
-public async Task<ActionResult<Estoque>> PostEstoque(CriarEstoqueDTO dto)
+        public async Task<ActionResult<Estoque>> PostEstoque(CriarEstoqueDTO dto)
         {
-            // 1. Verificação de segurança: O DTO ou o objeto Produto dentro dele estão nulos?
+            // Adicione um log aqui se puder para debugar: 
+            // Console.WriteLine($"Recebendo: {dto.Produto?.Nome}");
+
             if (dto == null || dto.Produto == null || string.IsNullOrEmpty(dto.Produto.Nome))
             {
                 return BadRequest("Os dados do produto não foram informados corretamente.");
             }
 
-            // 2. Extraia o nome para uma variável local
-            // Isso evita o erro de 'LINQ query parameter expression'
-            string nomeBusca = dto.Produto.Nome.ToLower();
+            string nomeBusca = dto.Produto.Nome.Trim().ToLower(); // Adicionei o Trim() para limpar espaços
 
             var produto = await _context.Produtos
                 .FirstOrDefaultAsync(p => p.Nome.ToLower() == nomeBusca);
@@ -45,10 +45,11 @@ public async Task<ActionResult<Estoque>> PostEstoque(CriarEstoqueDTO dto)
             {
                 produto = new Produto
                 {
-                    Nome = dto.Produto?.Nome ?? "Sem Nome",
-                    Categoria = dto.Produto?.Categoria ?? "",
-                    UnidadePeso = dto.Produto?.UnidadePeso ?? "",
+                    Nome = dto.Produto.Nome, // Removi o ?? "Sem Nome" porque a trava acima já garante que tem nome
+                    Categoria = dto.Produto.Categoria ?? "",
+                    UnidadePeso = dto.Produto.UnidadePeso ?? "",
                     Status = "Ativo",
+                    // Garante que o SQL não receba datas inválidas
                     DataFabricacao = dto.DataFabricacao ?? DateTime.Now,
                     Validade = dto.Validade ?? DateTime.Now.AddMonths(1)
                 };
