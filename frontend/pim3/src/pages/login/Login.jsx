@@ -11,9 +11,6 @@ export function Login() {
           <img src="./src/assets/logo.jpg" alt="personImg" className={styles.logoImg} width={150} height={150} />
           <h1>Acessar Conta</h1>
           <FormLogin/>
-          
-            <Link to='/' className={styles.link}>Deseja abrir uma franquia? clique aqui!</Link>
-          
         </div>
     </div>
   )

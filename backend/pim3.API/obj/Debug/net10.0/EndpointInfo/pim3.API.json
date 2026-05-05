@@ -5,6 +5,103 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Estoques/Propriedade/{propriedadeId}": {
+      "get": {
+        "tags": [
+          "Estoques"
+        ],
+        "parameters": [
+          {
+            "name": "propriedadeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Estoque"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Estoque"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Estoque"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Estoques": {
+      "post": {
+        "tags": [
+          "Estoques"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarEstoqueDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarEstoqueDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarEstoqueDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Estoque"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Estoque"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Estoque"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Propriedades": {
       "get": {
         "tags": [
@@ -189,49 +286,45 @@
           }
         }
       }
-    },
-    "/WeatherForecast": {
-      "get": {
-        "tags": [
-          "WeatherForecast"
-        ],
-        "operationId": "GetWeatherForecast",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
+      "CriarEstoqueDTO": {
+        "type": "object",
+        "properties": {
+          "produto": {
+            "$ref": "#/components/schemas/ProdutoDTO"
+          },
+          "quantidadeAtual": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimoSugerido": {
+            "type": "number",
+            "format": "double"
+          },
+          "unidade": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataFabricacao": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "validade": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "propriedadeId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "Estoque": {
         "type": "object",
         "properties": {
@@ -260,6 +353,20 @@
           "minimoSugerido": {
             "type": "number",
             "format": "double"
+          },
+          "unidade": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataFabricacao": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "validade": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -300,6 +407,24 @@
             "items": {
               "$ref": "#/components/schemas/Estoque"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProdutoDTO": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoria": {
+            "type": "string",
+            "nullable": true
+          },
+          "unidadePeso": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -348,38 +473,15 @@
           }
         },
         "additionalProperties": false
-      },
-      "WeatherForecast": {
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date"
-          },
-          "temperatureC": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
       }
     }
   },
   "tags": [
     {
-      "name": "Propriedades"
+      "name": "Estoques"
     },
     {
-      "name": "WeatherForecast"
+      "name": "Propriedades"
     }
   ]
 }
