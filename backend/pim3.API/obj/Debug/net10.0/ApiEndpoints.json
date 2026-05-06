@@ -27,6 +27,43 @@
   },
   {
     "ContainingType": "pim3.API.Controllers.EstoquesController",
+    "Method": "PutEstoque",
+    "RelativePath": "api/Estoques/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "pim3.API.DTOs.CriarEstoqueDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "pim3.API.Controllers.EstoquesController",
+    "Method": "DeleteEstoque",
+    "RelativePath": "api/Estoques/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "pim3.API.Controllers.EstoquesController",
     "Method": "GetEstoque",
     "RelativePath": "api/Estoques/Propriedade/{propriedadeId}",
     "HttpMethod": "GET",

@@ -7,7 +7,7 @@ import styles from './modalProduto.module.css';
 
 // 1. Definição do Schema de Validação
 const schema = yup.object({
-  nomeProduto: yup.string().required("O nome é obrigatório"),
+  nome: yup.string().required("O nome é obrigatório"),
   quantidadeAtual: yup.number().transform((value) => (isNaN(value) ? 0 : value)).min(0, "Mínimo 0"),
   minimoSugerido: yup.number().transform((value) => (isNaN(value) ? 0 : value)).min(0, "Mínimo 0"),
   unidade: yup.string().required("Selecione a unidade"),
@@ -24,7 +24,29 @@ export function ModalProduto({ isOpen, onClose, onSubmit, produto }) {
 
   // Limpa o formulário quando o modal abre/fecha ou o produto muda
   React.useEffect(() => {
-    reset(produto || { unidade: 'Kg', categoria: 'carnes' });
+    if (produto) {
+      // Se estamos editando, mapeamos os dados que vêm do banco (C#)
+      // para os nomes que o formulário entende (register)
+      reset({
+        nome: produto.produto?.nome, // Pega o nome de dentro do objeto aninhado
+        quantidadeAtual: produto.quantidadeAtual,
+        minimoSugerido: produto.minimoSugerido,
+        unidade: produto.unidade,
+        categoria: produto.produto?.categoria || "carnes",
+        dataFabricacao: produto.dataFabricacao ? produto.dataFabricacao.split('T')[0] : "",
+        validade: produto.validade ? produto.validade.split('T')[0] : ""
+      });
+    } else {
+      // Se for um novo produto, limpa para os valores padrão
+      reset({
+        nome: "",
+        quantidadeAtual: 0,
+        unidade: 'Kg',
+        categoria: 'carnes',
+        dataFabricacao: "",
+        validade: ""
+      });
+    }
   }, [produto, reset, isOpen]);
 
   if (!isOpen) return null;
@@ -33,12 +55,12 @@ export function ModalProduto({ isOpen, onClose, onSubmit, produto }) {
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <h2>{produto ? 'Editar Produto' : 'Novo Produto'}</h2>
-        
+
         <form onSubmit={handleSubmit(onSubmit)} className={styles.formGrid}>
           <div className={styles.fullWidth}>
             <label>Nome do Produto:</label>
-            <input {...register("nomeProduto")} className={errors.nomeProduto ? styles.errorInput : ""} />
-            <span className={styles.errorMessage}>{errors.nomeProduto?.message}</span>
+            <input {...register("nome")} className={errors.nome ? styles.errorInput : ""} />
+            <span className={styles.errorMessage}>{errors.nome?.message}</span>
           </div>
 
           <div className={styles.row}>

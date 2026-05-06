@@ -39,7 +39,19 @@ export function Estoque() {
             <EstoqueTable
                 itens={itensFiltrados}
                 onEdit={(item) => { setItemSelecionado(item); setModalAberto(true); }}
-                onDelete={async (id) => { /* lógica de delete */ }}
+                onDelete={async (id) => {
+                    if (window.confirm("Tem certeza que deseja excluir este item do estoque?")) {
+                        try {
+                            await api.delete(`/Estoques/${id}`);
+                            alert("Item removido com sucesso!");
+                            // Recarrega a lista para atualizar a tabela na tela
+                            carregarEstoque();
+                        } catch (error) {
+                            console.error("Erro ao deletar:", error);
+                            alert("Erro ao excluir o item.");
+                        }
+                    }
+                }}
             />
 
             <ModalProduto
@@ -52,7 +64,7 @@ export function Estoque() {
                         const payload = {
                             // Mapeamento para a tabela 'Produtos'
                             produto: {
-                                nome: dados.nome,   // Verifique se no C# é 'Nome' ou 'nomeProduto'
+                                nome: dados.nome,
                                 categoria: dados.categoria,
                                 unidadePeso: dados.unidade
                             },
@@ -62,7 +74,7 @@ export function Estoque() {
                             unidade: dados.unidade,
                             dataFabricacao: dados.dataFabricacao,
                             validade: dados.validade,
-                            propriedadeId: Number(unidade.id) 
+                            propriedadeId: Number(unidade.id)
                         };
 
                         if (itemSelecionado) {

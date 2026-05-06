@@ -25,7 +25,7 @@ export function EstoqueTable({ itens, onEdit, onDelete }) {
                     const status = definirStatus(item.quantidadeAtual, item.minimoSugerido);
                     return (
                         <tr key={item.id}>
-                            <td>{item.produto?.nome || "Sem Nome"}</td>
+                            <td>{item.produto?.nome}</td>
                             <td>{item.quantidadeAtual} {item.unidade}</td>
                             <td>{item.minimoSugerido} {item.unidade}</td>
                             <td>{item.dataFabricacao ? new Date(item.dataFabricacao).toLocaleDateString('pt-BR') : '-'}</td>
