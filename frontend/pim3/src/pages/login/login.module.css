@@ -24,15 +24,3 @@
   color: #000;
   font-family: Arial, Helvetica, sans-serif;
 }
-
-.link {
-    display: flex;
-    text-decoration: none;
-    list-style: none;
-    color: #000;
-    transition: transform 0.2s ease;
-}
-
-.link:hover {
-  transform: scale(1.1);
-}

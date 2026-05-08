@@ -2,8 +2,9 @@ import React from 'react'
 import { useRoutes } from 'react-router';
 import { Layout } from '../pages/Layout';
 import { Login } from '../pages/login/Login';
-import { LandingPage } from '../pages/landingPage/LandingPage';
 import { PrivateRoute } from './PrivateRoute';
+import { HomeAdm } from '../pages/homeAdm/HomeAdm';
+import { HomeUser } from '../pages/homeUser/HomeUser';
 
 export function Routes() {
   const routes = useRoutes([
@@ -11,16 +12,15 @@ export function Routes() {
       path: "/",
       element: <Layout />,
       children: [
-        { index: true, element: <LandingPage /> },
+        { index: true, element: <Login /> },
       ],
     },
-    { path: "/login", element: <Login /> },
 
     {
-      path: "/dashboard-franquia",
+      path: "/user",
       element: (
         <PrivateRoute>
-          {/* <DashboardFranquia /> */}
+          <HomeUser/>
         </PrivateRoute>
       ),
     },
@@ -28,7 +28,7 @@ export function Routes() {
       path: "/admin",
       element: (
         <PrivateRoute onlyAdmin={true}>
-          {/* <Admin /> */}
+          <HomeAdm/>
         </PrivateRoute>
       ),
     },
