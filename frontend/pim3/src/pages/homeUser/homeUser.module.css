@@ -1,0 +1,35 @@
+.container {
+    background-color: #B8D1C5;
+    width: 100vw;
+    height: 100vh;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: end;
+    margin-right: 20px;
+}
+
+.button {
+  background-color: #2A9D8F;
+  color: #ffff;
+  width: 10rem;
+  height: 2.5rem;
+  font-size: 20px;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+  box-shadow: 5px 5px 0px black; /* Efeito de brilho suave */
+  transform: scale(1.02);
+}

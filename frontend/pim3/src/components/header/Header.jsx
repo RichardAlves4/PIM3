@@ -8,8 +8,6 @@ export function Header() {
       <img src="./src/assets/logo.jpg" alt="logo" />
       <h1>Dimmy's Burger</h1>
       <button className={styles.linkContainer}>Sair</button>
-      
-
     </header>
   )
 }

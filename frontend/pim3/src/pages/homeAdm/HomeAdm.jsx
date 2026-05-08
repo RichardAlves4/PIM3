@@ -45,8 +45,9 @@ export function HomeAdm() {
           />
           <select onChange={(e) => setFiltroUf(e.target.value)}>
             <option value="">Filtrar por UF</option>
-            <option value="SP">SP</option>
-            <option value="RJ">RJ</option>
+            <option value="SP">São Paulo</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="MG">Minas Gerais</option>
           </select>
         </div>
         
