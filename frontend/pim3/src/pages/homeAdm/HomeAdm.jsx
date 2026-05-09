@@ -3,6 +3,7 @@ import api from '../../services/api';
 import { FranquiaRow } from '../../components/franquiaRow/FranquiaRow.jsx';
 import { ModalFranquia } from '../../components/modalFranquia/ModalFranquia.jsx';
 import styles from './homeAdm.module.css';
+import { Header } from '../../components/header/Header.jsx';
 
 export function HomeAdm() {
   const [franquias, setFranquias] = useState([]);
@@ -33,6 +34,7 @@ export function HomeAdm() {
 
   return (
     <div className={styles.container}>
+      <Header/>
       <h1>Franquias</h1>
       
       <div className={styles.headerActions}>

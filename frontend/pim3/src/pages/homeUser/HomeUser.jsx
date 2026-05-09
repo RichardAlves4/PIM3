@@ -38,7 +38,7 @@ export function HomeUser() {
 
   return (
     <div className={styles.container}>
-      <Header />
+      <Header />  
       <h1 className={styles.title}>Estoque</h1>
 
       <div className={styles.buttonContainer}>
@@ -53,8 +53,9 @@ export function HomeUser() {
         </button>
       </div>
 
-      <div>
+      <div className={styles.filtersContainer}>
         <input
+          className={styles.searchInput}
           placeholder="Procure seus produtos aqui..."
           onChange={(e) => setBusca(e.target.value)}
           type="search"
@@ -76,31 +77,32 @@ export function HomeUser() {
             ))}
         </select>
       </div>
-
-      <EstoqueTable
-        itens={itensFiltrados}
-        onEdit={(item) => {
-          setItemSelecionado(item);
-          setModalAberto(true);
-        }}
-        onDelete={async (id) => {
-          if (
-            window.confirm(
-              "Tem certeza que deseja excluir este item do estoque?",
-            )
-          ) {
-            try {
-              await api.delete(`/Estoques/${id}`);
-              alert("Item removido com sucesso!");
-              // Recarrega a lista para atualizar a tabela na tela
-              carregarEstoque();
-            } catch (error) {
-              console.error("Erro ao deletar:", error);
-              alert("Erro ao excluir o item.");
+      <div className={styles.tableWrapper}>
+        <EstoqueTable
+          itens={itensFiltrados}
+          onEdit={(item) => {
+            setItemSelecionado(item);
+            setModalAberto(true);
+          }}
+          onDelete={async (id) => {
+            if (
+              window.confirm(
+                "Tem certeza que deseja excluir este item do estoque?",
+              )
+            ) {
+              try {
+                await api.delete(`/Estoques/${id}`);
+                alert("Item removido com sucesso!");
+                // Recarrega a lista para atualizar a tabela na tela
+                carregarEstoque();
+              } catch (error) {
+                console.error("Erro ao deletar:", error);
+                alert("Erro ao excluir o item.");
+              }
             }
-          }
-        }}
-      />
+          }}
+        />
+      </div>
 
       <ModalProduto
         isOpen={modalAberto}

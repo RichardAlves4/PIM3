@@ -1,0 +1,131 @@
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(44, 44, 44, 0.8);
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+.modalContent {
+    display: flex;
+    align-items: center;
+    background: #b8d1c5;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 50%;
+    height: 85vh;
+    max-width: 1000px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.form {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fieldContent {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-bottom: 30px;
+}
+
+.formInput {
+    height: 2rem;
+    font-size: 18px;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+.errorInput {
+    height: 2rem;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 2px solid red;
+}
+
+.errorMessage {
+    color: rgb(214, 0, 0);
+}
+
+.doubleFieldContainer {
+    display: flex;
+    width: 80%;
+    gap: 20px;
+}
+
+.doubleFieldContent {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 30px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.btnSubmit {
+    background-color: #2A9D8F;
+    color: #ffff;
+    width: 10rem;
+    height: 2.5rem;
+    font-size: 20px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.btnSubmit:hover {
+  box-shadow: 5px 5px 0px black; /* Efeito de brilho suave */
+  transform: scale(1.02);
+}
+
+.btnCancel {
+  background-color: rgb(231, 76, 60);
+  color: #ffff;
+  width: 10rem;
+  height: 2.5rem;
+  font-size: 20px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.btnCancel:hover {
+  box-shadow: 5px 5px 0px black; /* Efeito de brilho suave */
+  transform: scale(1.02);
+}
+
+@media (max-width:825px) {
+    .modalContent{
+        width: 80%;
+    }
+    .doubleFieldContainer {
+    display: flex;flex-direction: column;
+    width: 80%;
+    gap: 0px;
+
+}
+    .doubleFieldContent {
+    
+    width: 100%; 
+    margin-bottom: 30px;
+    }
+}
