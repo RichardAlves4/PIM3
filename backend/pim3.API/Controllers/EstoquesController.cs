@@ -43,7 +43,9 @@ namespace pim3.API.Controllers
                 Status = "Ativo",
                 // No seu modelo, a tabela Produto também tem essas datas, então preenchemos
                 DataFabricacao = dto.DataFabricacao ?? DateTime.Now,
-                Validade = dto.Validade ?? DateTime.Now.AddMonths(1)
+                Validade = dto.Validade ?? DateTime.Now.AddMonths(1),
+
+                PropriedadeId = dto.PropriedadeId
             };
 
             _context.Produtos.Add(produto);

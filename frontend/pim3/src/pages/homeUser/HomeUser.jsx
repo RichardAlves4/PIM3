@@ -38,7 +38,7 @@ export function HomeUser() {
 
   return (
     <div className={styles.container}>
-      <Header />
+      <Header />  
       <h1 className={styles.title}>Estoque</h1>
 
       <div className={styles.buttonContainer}>
@@ -53,9 +53,10 @@ export function HomeUser() {
         </button>
       </div>
 
-      <div>
+      <div className={styles.filtersContainer}>
         <input
-          placeholder="Procure seus produtos aqui..."
+          className={styles.searchInput}
+          placeholder="Buscar produtos..."
           onChange={(e) => setBusca(e.target.value)}
           type="search"
         />
@@ -65,8 +66,7 @@ export function HomeUser() {
           value={categoriaFiltro}
           onChange={(e) => setCategoriaFiltro(e.target.value)}
         >
-          <option value="">Todas as Categorias</option>
-          {/* Aqui você pode mapear categorias únicas do seu array de itens */}
+          <option value="">Todas as Categorias</option> 
           {[...new Set(itens.map((i) => i.produto?.categoria))]
             .filter(Boolean)
             .map((cat) => (
@@ -76,31 +76,32 @@ export function HomeUser() {
             ))}
         </select>
       </div>
-
-      <EstoqueTable
-        itens={itensFiltrados}
-        onEdit={(item) => {
-          setItemSelecionado(item);
-          setModalAberto(true);
-        }}
-        onDelete={async (id) => {
-          if (
-            window.confirm(
-              "Tem certeza que deseja excluir este item do estoque?",
-            )
-          ) {
-            try {
-              await api.delete(`/Estoques/${id}`);
-              alert("Item removido com sucesso!");
-              // Recarrega a lista para atualizar a tabela na tela
-              carregarEstoque();
-            } catch (error) {
-              console.error("Erro ao deletar:", error);
-              alert("Erro ao excluir o item.");
+      <div className={styles.tableWrapper}>
+        <EstoqueTable
+          itens={itensFiltrados}
+          onEdit={(item) => {
+            setItemSelecionado(item);
+            setModalAberto(true);
+          }}
+          onDelete={async (id) => {
+            if (
+              window.confirm(
+                "Tem certeza que deseja excluir este item do estoque?",
+              )
+            ) {
+              try {
+                await api.delete(`/Estoques/${id}`);
+                alert("Item removido com sucesso!");
+                // Recarrega a lista para atualizar a tabela na tela
+                carregarEstoque();
+              } catch (error) {
+                console.error("Erro ao deletar:", error);
+                alert("Erro ao excluir o item.");
+              }
             }
-          }
-        }}
-      />
+          }}
+        />
+      </div>
 
       <ModalProduto
         isOpen={modalAberto}

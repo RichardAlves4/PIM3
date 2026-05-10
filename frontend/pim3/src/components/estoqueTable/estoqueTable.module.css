@@ -7,14 +7,13 @@
 }
 
 .table {
-    width: 80%;
+    width: 100%;
+    min-width: 1280px;
     border-collapse: collapse; /* Remove espaços duplos entre bordas */
-    margin: 20px 0;
     font-size: 16px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     border-radius: 8px 8px 0 0;
     word-break: break-all;
-    
     overflow: hidden; /* Garante que o border-radius funcione */
 }
 
@@ -33,6 +32,8 @@
     font-family: 'Archivo Narrow', sans-serif!important;
     text-align: center; 
     vertical-align: middle;
+    white-space: nowrap;
+    font-size: 18px;
 }
 
 
@@ -76,3 +77,4 @@
 .btnEditar:hover, .btnRemover:hover {
     opacity: 0.8;
 }
+

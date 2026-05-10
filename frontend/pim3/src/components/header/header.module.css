@@ -19,7 +19,7 @@
   border-radius: 100px;
 }
 
-.linkContainer {
+.button {
   display: flex;
   width: 5rem;
   height: 2rem;
@@ -27,18 +27,37 @@
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+  color: #fff;
+  font-size: 18px;
   background-color: #2A9D8F;
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
-.linkContainer:hover {
+.button:hover {
   box-shadow: 5px 5px 0px white; 
   transform: scale(1.1);
 }
 
-.linkContent {
+.button {
   text-decoration: none;
   font-size: 20px;
   color: #fff;
+}
+
+@media (max-width: 420px) { 
+  .header img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  }
+
+  .header h1 {
+    font-size: 26px;
+  }
+  
+  .button {
+    width: 3.5rem;
+    height: 2rem;
+  }
 }
 

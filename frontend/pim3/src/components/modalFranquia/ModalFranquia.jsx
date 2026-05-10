@@ -1,15 +1,21 @@
-import React, { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import styles from './Modal.module.css';
+import styles from "./modalFranquia.module.css";
 
 // Definição do Schema
 const schema = yup.object({
   nome: yup.string().required("*Campo Obrigatório"),
   razaoSocial: yup.string().required("*Campo Obrigatório"),
+  taxaRoyalties: yup
+  .number()
+  .transform((value) => (isNaN(value) ? undefined : value))
+  .typeError("Informe um número")
+  .min(0, "Mínimo 0")
+  .required("*Campo Obrigatório"),
   cnpj: yup
     .string()
     .required("*Campo Obrigatório")
@@ -19,80 +25,131 @@ const schema = yup.object({
 
 export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
   // Adicionado 'control' e 'formState: { errors }' que faltavam
-  const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: dadosIniciais || {}
+    defaultValues: dadosIniciais || {},
   });
 
   // Reseta o formulário sempre que os dados iniciais mudarem ou o modal abrir
   useEffect(() => {
     if (isOpen) {
-      reset(dadosIniciais || { nome: '', razaoSocial: '', cnpj: '', uf: 'SP' });
+      reset(dadosIniciais || { nome: "", razaoSocial: "", taxaRoyalties: "", cnpj: "", uf: "SP", });
     }
   }, [isOpen, dadosIniciais, reset]);
 
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h2>{dadosIniciais ? 'Editar Franquia' : 'Criar Franquia'}</h2>
-        
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.formContent}>
+    <div className={styles.container}>
+      <div className={styles.modalContent}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           
-          <div className={styles.field}>
+          <h2>{dadosIniciais ? "Editar Franquia" : "Criar Franquia"}</h2>
+          <div className={styles.fieldContent}>
             <label>Nome:</label>
-            <input {...register("nome")} placeholder="Nome da Unidade" className={errors.nome ? styles.inputError : ""} />
-            {errors.nome && <span className={styles.error}>{errors.nome.message}</span>}
-          </div>
-
-          <div className={styles.field}>
-            <label>Razão Social:</label>
-            <input {...register("razaoSocial")} placeholder="Razão Social Ltda" className={errors.razaoSocial ? styles.inputError : ""} />
-            {errors.razaoSocial && <span className={styles.error}>{errors.razaoSocial.message}</span>}
-          </div>
-
-          <div className={styles.field}>
-            <label htmlFor="cnpj">CNPJ:</label>
-            <Controller
-              name="cnpj"
-              control={control}
-              render={({ field: { onChange, value, ...fieldProps } }) => (
-                <PatternFormat
-                  {...fieldProps}
-                  format="##.###.###/####-##"
-                  mask="_"
-                  type="text"
-                  id="cnpj"
-                  placeholder="00.000.000/0000-00"
-                  value={value}
-                  onValueChange={(values) => {
-                    // Envia apenas os números para o formulário
-                    onChange(values.value);
-                  }}
-                  className={errors.cnpj ? styles.inputError : ""}
-                />
-              )}
+            <input
+              {...register("nome")}
+              placeholder="Nome da Unidade"
+              className={errors.nome ? styles.errorInput : styles.formInput}
             />
-            {errors.cnpj && <span className={styles.error}>{errors.cnpj.message}</span>}
+            {errors.nome && (
+              <span className={styles.errorMessage}>{errors.nome.message}</span>
+            )}
           </div>
 
-          <div className={styles.field}>
-            <label>UF:</label>
-            <select {...register("uf")} className={errors.uf ? styles.inputError : ""}>
-              <option value="">Selecione...</option>
-              <option value="SP">São Paulo</option>
-              <option value="RJ">Rio de Janeiro</option>
-              <option value="MG">Minas Gerais</option>
-              {/* Adicione outros conforme necessário */}
-            </select>
-            {errors.uf && <span className={styles.error}>{errors.uf.message}</span>}
+          <div className={styles.fieldContent}>
+            <label>Razão Social:</label>
+            <input
+              {...register("razaoSocial")}
+              placeholder="Razão Social Ltda"
+              className={
+                errors.razaoSocial ? styles.errorInput : styles.formInput
+              }
+            />
+            {errors.razaoSocial && (
+              <span className={styles.errorMessage}>
+                {errors.razaoSocial.message}
+              </span>
+            )}
           </div>
 
-          <div className={styles.footer}>
-            <button type="button" onClick={onClose} className={styles.btnCancelar}>Cancelar</button>
-            <button type="submit" className={styles.btnSucesso}>
-              {dadosIniciais ? 'Salvar Alterações' : 'Cadastrar Franquia'}
+          <div className={styles.fieldContent}>
+            <label>Taxa de Royalties:</label>
+            <input
+              {...register("taxaRoyalties")}
+              placeholder="taxa Royalties em %"
+              className={errors.taxaRoyalties ? styles.errorInput : styles.formInput}
+            />
+            {errors.taxaRoyalties && (
+              <span className={styles.errorMessage}>{errors.taxaRoyalties.message}</span>
+            )}
+          </div>
+
+          <div className={styles.doubleFieldContainer}>
+            <div className={styles.doubleFieldContent}>
+              <label htmlFor="cnpj">CNPJ:</label>
+              <Controller
+                name="cnpj"
+                control={control}
+                render={({ field: { onChange, value, ...fieldProps } }) => (
+                  <PatternFormat
+                    {...fieldProps}
+                    format="##.###.###/####-##"
+                    mask="_"
+                    type="text"
+                    id="cnpj"
+                    placeholder="00.000.000/0000-00"
+                    value={value}
+                    onValueChange={(values) => {
+                      // Envia apenas os números para o formulário
+                      onChange(values.value);
+                    }}
+                    className={
+                      errors.cnpj ? styles.errorInput : styles.formInput
+                    }
+                  />
+                )}
+              />
+              {errors.cnpj && (
+                <span className={styles.errorMessage}>
+                  {errors.cnpj.message}
+                </span>
+              )}
+            </div>
+            <div className={styles.doubleFieldContent}>
+              <label>UF:</label>
+              <select
+                {...register("uf")}
+                className={errors.uf ? styles.errorInput : styles.formInput}
+              >
+                <option value="">Selecione...</option>
+                <option value="SP">São Paulo</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="MG">Minas Gerais</option>
+                {/* Adicione outros conforme necessário */}
+              </select>
+              {errors.uf && (
+                <span className={styles.errorMessage}>{errors.uf.message}</span>
+              )}
+            </div>
+          </div>
+
+          <div className={styles.actions}>
+            <button type="submit" className={styles.btnSubmit}>
+              {dadosIniciais ? "Salvar Alterações" : "Cadastrar Franquia"}
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className={styles.btnCancel}
+            >
+              Cancelar
             </button>
           </div>
         </form>

@@ -15,7 +15,7 @@ export function FormLogin() {
   const {
     handleSubmit,
     reset,
-    register,
+    register, 
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: { userAccess: "", password: "" },

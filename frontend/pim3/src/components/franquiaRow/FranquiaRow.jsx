@@ -1,28 +1,42 @@
-import React from 'react';
-import { useNavigate } from 'react-router';
+import React from "react";
 import styles from './franquiaRow.module.css';
 
-export function FranquiaRow({ franquia, onDelete, onEdit }) {
-  const navigate = useNavigate();
-
-  // Lógica: se não houver referência de estoque no banco, mostra "Criar"
-  const temEstoque = franquia.estoqueId != null;
-
+export function FranquiaRow({ franquia, onDelete, onEdit, onAbrirEstoque }) {
   return (
-    <div className={styles.row}>
-      <span className={styles.nome}>{franquia.nome}</span>
-      
-      <div className={styles.actions}>
+    <tr className={styles.row}>
+      <td>{franquia.nome}</td>
+      <td>{franquia.uf}</td>
+      <td>{franquia.razaoSocial}</td>
+      <td>{franquia.cnpj}</td>
+      <td>{franquia.taxaRoyalties}%</td>
+      <td>
+        {franquia.dataAbertura
+          ? new Date(franquia.dataAbertura).toLocaleDateString("pt-BR")
+          : "-"}
+      </td>
+      <td className={styles.actions}>
         <button 
-          className={temEstoque ? styles.btnEstoque : styles.btnCriar}
-          onClick={() => temEstoque ? navigate(`/estoque/${franquia.id}`) : navigate(`/criar-estoque/${franquia.id}`)}
+          className={styles.btnEstoque} 
+          onClick={() => onAbrirEstoque(franquia)}
+          title="Ver Estoque"
         >
-          {temEstoque ? "Estoque" : "Criar Estoque"}
+          Abrir Estoque
         </button>
-        
-        <button onClick={() => onEdit(franquia)} className={styles.btnIcon}>✏️</button>
-        <button onClick={() => onDelete(franquia.id)} className={styles.btnIcon}>🗑️</button>
-      </div>
-    </div>
+        <button 
+          onClick={() => onEdit(franquia)} 
+          className={styles.btnEditar}
+          title="Editar Franquia"
+        >
+          Editar
+        </button>
+        <button 
+          onClick={() => onDelete(franquia.id)} 
+          className={styles.btnRemover}
+          title="Excluir Franquia"
+        >
+          Excluir
+        </button>
+      </td>
+    </tr>
   );
 }

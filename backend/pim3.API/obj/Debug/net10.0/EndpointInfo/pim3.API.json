@@ -465,6 +465,13 @@
             "type": "string",
             "format": "date-time"
           },
+          "propriedadeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "propriedade": {
+            "$ref": "#/components/schemas/Propriedade"
+          },
           "estoques": {
             "type": "array",
             "items": {

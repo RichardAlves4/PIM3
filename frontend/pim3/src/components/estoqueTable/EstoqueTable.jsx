@@ -8,7 +8,6 @@ export function EstoqueTable({ itens, onEdit, onDelete }) {
     return { classe: "bom", cor: "#27ae60" };
   };
   return (
-    <div className={styles.container}>
       <table className={styles.table}>
         <thead>
           <tr>
@@ -74,6 +73,5 @@ export function EstoqueTable({ itens, onEdit, onDelete }) {
           })}
         </tbody>
       </table>
-    </div>
   );
 }
