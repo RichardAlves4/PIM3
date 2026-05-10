@@ -13,7 +13,7 @@ export function PrivateRoute({ children, onlyAdmin = false }) {
   if (onlyAdmin && !isAdmin) {
     // Opção A: Redirecionar para o NotFound (como você sugeriu)
     // Isso é bom para "esconder" que a página de admin existe
-    return <Navigate to="/404" replace />;
+    return <Navigate to="/" replace />;
     
     // Opção B: Redirecionar para o dashboard dele (o que você já tinha)
     // return <Navigate to="/user" replace />; 

@@ -56,7 +56,7 @@ export function HomeUser() {
       <div className={styles.filtersContainer}>
         <input
           className={styles.searchInput}
-          placeholder="Procure seus produtos aqui..."
+          placeholder="Buscar produtos..."
           onChange={(e) => setBusca(e.target.value)}
           type="search"
         />
@@ -66,8 +66,7 @@ export function HomeUser() {
           value={categoriaFiltro}
           onChange={(e) => setCategoriaFiltro(e.target.value)}
         >
-          <option value="">Todas as Categorias</option>
-          {/* Aqui você pode mapear categorias únicas do seu array de itens */}
+          <option value="">Todas as Categorias</option> 
           {[...new Set(itens.map((i) => i.produto?.categoria))]
             .filter(Boolean)
             .map((cat) => (
