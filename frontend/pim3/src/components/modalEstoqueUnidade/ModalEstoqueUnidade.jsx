@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api.js";
 import { EstoqueTable } from "../estoqueTable/EstoqueTable.jsx";
-import styles from "./modalEstoqueUnidade.module.css"; 
+import { ModalProduto } from "../modalProduto/ModalProduto.jsx";
+
+import styles from "./modalEstoqueUnidade.module.css";
 
 export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
   const [itens, setItens] = useState([]);
   const [busca, setBusca] = useState(""); // Estado para busca
   const [categoriaFiltro, setCategoriaFiltro] = useState(""); // Estado para categoria
   const [loading, setLoading] = useState(false);
+
+  const [modalAberto, setModalAberto] = useState(false);
+  const [itemSelecionado, setItemSelecionado] = useState(null);
 
   const carregarEstoque = async () => {
     setLoading(true);
@@ -42,19 +47,34 @@ export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
   });
 
   // Gera a lista de categorias únicas para o Select
-  const categoriasUnicas = [...new Set(itens.map((i) => i.produto?.categoria))].filter(Boolean);
+  const categoriasUnicas = [
+    ...new Set(itens.map((i) => i.produto?.categoria)),
+  ].filter(Boolean);
 
   if (!isOpen) return null;
 
   return (
     <div className={styles.overlay}>
+      <button onClick={onClose} className={styles.closeButton}>
+        X
+      </button>
       <div className={styles.modal}>
         <div className={styles.header}>
           <h2>Estoque: {franquia?.nome}</h2>
-          <button onClick={onClose} className={styles.btnClose}>&times;</button>
         </div>
 
-        {/* Barra de Filtros dentro do Modal */}
+        <div className={styles.buttonContainer}>
+          <button
+            className={styles.button}
+            onClick={() => {
+              setItemSelecionado(null);
+              setModalAberto(true);
+            }}
+          >
+            + Novo Produto
+          </button>
+        </div>
+
         <div className={styles.filtersContainer}>
           <input
             className={styles.searchInput}
@@ -71,27 +91,83 @@ export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
           >
             <option value="">Todas as Categorias</option>
             {categoriasUnicas.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
             ))}
           </select>
         </div>
-        
+
         <div className={styles.content}>
           {loading ? (
             <p>Carregando estoque...</p>
           ) : (
-            <EstoqueTable 
-              itens={itensFiltrados} // Passa a lista filtrada
+            <EstoqueTable
+              itens={itensFiltrados}
+              onEdit={(item) => {
+                setItemSelecionado(item);
+                setModalAberto(true);
+              }}
               onDelete={async (id) => {
-                if (window.confirm("Remover este item?")) {
-                  await api.delete(`/Estoques/${id}`);
-                  carregarEstoque();
+                if (
+                  window.confirm(
+                    "Tem certeza que deseja excluir este item do estoque?",
+                  )
+                ) {
+                  try {
+                    await api.delete(`/Estoques/${id}`);
+                    alert("Item removido com sucesso!");
+                    // Recarrega a lista para atualizar a tabela na tela
+                    carregarEstoque();
+                  } catch (error) {
+                    console.error("Erro ao deletar:", error);
+                    alert("Erro ao excluir o item.");
+                  }
                 }
               }}
-              onEdit={() => {}} 
             />
           )}
         </div>
+
+        <ModalProduto
+          isOpen={modalAberto}
+          onClose={() => setModalAberto(false)}
+          produto={itemSelecionado}
+          onSubmit={async (dados) => {
+            try {
+              const payload = {
+                // Importante: Passar o ID da propriedade/franquia aqui
+                propriedadeId: Number(franquia.id),
+
+                produto: {
+                  nome: dados.nome,
+                  categoria: dados.categoria,
+                  unidadePeso: dados.unidade,
+                },
+
+                quantidadeAtual: Number(dados.quantidadeAtual),
+                minimoSugerido: Number(dados.minimoSugerido),
+                unidade: dados.unidade,
+                dataFabricacao: dados.dataFabricacao,
+                validade: dados.validade,
+              };
+
+              if (itemSelecionado) {
+                await api.put(`/Estoques/${itemSelecionado.id}`, payload);
+                alert("Produto atualizado com sucesso!");
+              } else {
+                await api.post("/Estoques", payload);
+                alert("Produto criado com sucesso!");
+              }
+
+              setModalAberto(false);
+              carregarEstoque();
+            } catch (error) {
+              console.error("Erro ao salvar produto:", error);
+              alert("Erro ao salvar no banco de dados.");
+            }
+          }}
+        />
       </div>
     </div>
   );

@@ -9,7 +9,8 @@
         public string Status { get; set; } = string.Empty; // ex: "Ativo", "Descontinuado"
         public DateTime DataFabricacao { get; set; }
         public DateTime Validade { get; set; }
-
+        public int PropriedadeId { get; set; } 
+        public Propriedade? Propriedade { get; set; }
         public ICollection<Estoque> Estoques { get; set; } = new List<Estoque>();
     }
 }
