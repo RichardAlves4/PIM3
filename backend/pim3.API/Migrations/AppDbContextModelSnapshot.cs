@@ -82,6 +82,9 @@ namespace pim3.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PropriedadeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -94,6 +97,8 @@ namespace pim3.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PropriedadeId");
 
                     b.ToTable("Produtos");
                 });
@@ -121,6 +126,10 @@ namespace pim3.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RazaoSocial")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Senha")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -155,6 +164,17 @@ namespace pim3.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Produto");
+
+                    b.Navigation("Propriedade");
+                });
+
+            modelBuilder.Entity("pim3.API.Models.Produto", b =>
+                {
+                    b.HasOne("pim3.API.Models.Propriedade", "Propriedade")
+                        .WithMany()
+                        .HasForeignKey("PropriedadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Propriedade");
                 });

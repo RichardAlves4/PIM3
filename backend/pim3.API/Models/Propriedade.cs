@@ -7,6 +7,7 @@
         public string RazaoSocial { get; set; } = string.Empty;
         public string Cnpj { get; set; } = string.Empty;
         public string Uf { get; set; } = string.Empty; // Cidade/Estado
+        public string Senha { get; set; } = "123mudar";
         public bool EhFranqueadora { get; set; }
         public decimal TaxaRoyalties { get; set; }
         public DateTime DataAbertura { get; set; }

@@ -120,19 +120,29 @@ export function HomeAdm() {
         onClose={() => setModalAberto(false)}
         dadosIniciais={editando}
         onSubmit={async (dados) => {
-          const dadosComData = {
+          const payload = {
             ...dados,
+            // Define a data: se estiver editando mantém a antiga, se for nova usa a de hoje
             dataAbertura: editando
               ? editando.dataAbertura
               : new Date().toISOString(),
           };
-          if (editando) {
-            await api.put(`/Propriedades/${editando.id}`, dadosComData);
-          } else {
-            await api.post("/Propriedades", dadosComData);
+
+          try {
+            if (editando) {
+              await api.put(`/Propriedades/${editando.id}`, payload);
+              alert("Franquia atualizada!");
+            } else {
+              await api.post("/Propriedades", payload);
+              alert("Franquia criada com a senha padrão: 123mudar");
+            }
+
+            setModalAberto(false);
+            carregarFranquias();
+          } catch (error) {
+            console.error("Erro ao salvar franquia:", error);
+            alert("Erro ao salvar dados no banco.");
           }
-          setModalAberto(false);
-          carregarFranquias();
         }}
       />
     </div>

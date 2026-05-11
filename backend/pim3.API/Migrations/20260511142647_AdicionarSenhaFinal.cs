@@ -6,11 +6,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pim3.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AdicionarSenhaFinal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Propriedades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RazaoSocial = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cnpj = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Uf = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EhFranqueadora = table.Column<bool>(type: "bit", nullable: false),
+                    TaxaRoyalties = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
+                    DataAbertura = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Propriedades", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Produtos",
                 columns: table => new
@@ -22,30 +42,18 @@ namespace pim3.API.Migrations
                     UnidadePeso = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DataFabricacao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Validade = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Validade = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PropriedadeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Produtos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Propriedades",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RazaoSocial = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cnpj = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Uf = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EhFranqueadora = table.Column<bool>(type: "bit", nullable: false),
-                    TaxaRoyalties = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
-                    DataAbertura = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Propriedades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Produtos_Propriedades_PropriedadeId",
+                        column: x => x.PropriedadeId,
+                        principalTable: "Propriedades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,7 +65,10 @@ namespace pim3.API.Migrations
                     PropriedadeId = table.Column<int>(type: "int", nullable: false),
                     ProdutoId = table.Column<int>(type: "int", nullable: false),
                     QuantidadeAtual = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    MinimoSugerido = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
+                    MinimoSugerido = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Unidade = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataFabricacao = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Validade = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,6 +95,11 @@ namespace pim3.API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Estoques_PropriedadeId",
                 table: "Estoques",
+                column: "PropriedadeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Produtos_PropriedadeId",
+                table: "Produtos",
                 column: "PropriedadeId");
 
             migrationBuilder.CreateIndex(

@@ -11,20 +11,25 @@ const schema = yup.object({
   nome: yup.string().required("*Campo Obrigatório"),
   razaoSocial: yup.string().required("*Campo Obrigatório"),
   taxaRoyalties: yup
-  .number()
-  .transform((value) => (isNaN(value) ? undefined : value))
-  .typeError("Informe um número")
-  .min(0, "Mínimo 0")
-  .required("*Campo Obrigatório"),
+    .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .typeError("Informe um número")
+    .min(0, "Mínimo 0")
+    .required("*Campo Obrigatório"),
   cnpj: yup
     .string()
     .required("*Campo Obrigatório")
     .matches(/^\d{14}$/, "O CNPJ deve conter 14 números"),
+  senha: yup
+    .string()
+    .min(6, "Mínimo 6 caracteres")
+    .required("*Campo Obrigatório"),
   uf: yup.string().required("*Obrigatório"),
 });
 
 export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
-  // Adicionado 'control' e 'formState: { errors }' que faltavam
+  const [mostrarSenha, setMostrarSenha] = React.useState(false);
+
   const {
     register,
     handleSubmit,
@@ -36,10 +41,18 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
     defaultValues: dadosIniciais || {},
   });
 
-  // Reseta o formulário sempre que os dados iniciais mudarem ou o modal abrir
   useEffect(() => {
     if (isOpen) {
-      reset(dadosIniciais || { nome: "", razaoSocial: "", taxaRoyalties: "", cnpj: "", uf: "SP", });
+      reset(
+        dadosIniciais || {
+          nome: "",
+          razaoSocial: "",
+          taxaRoyalties: "",
+          cnpj: "",
+          senha: "",
+          uf: "SP",
+        },
+      );
     }
   }, [isOpen, dadosIniciais, reset]);
 
@@ -49,7 +62,6 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
     <div className={styles.container}>
       <div className={styles.modalContent}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          
           <h2>{dadosIniciais ? "Editar Franquia" : "Criar Franquia"}</h2>
           <div className={styles.fieldContent}>
             <label>Nome:</label>
@@ -84,10 +96,41 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
             <input
               {...register("taxaRoyalties")}
               placeholder="taxa Royalties em %"
-              className={errors.taxaRoyalties ? styles.errorInput : styles.formInput}
+              className={
+                errors.taxaRoyalties ? styles.errorInput : styles.formInput
+              }
             />
             {errors.taxaRoyalties && (
-              <span className={styles.errorMessage}>{errors.taxaRoyalties.message}</span>
+              <span className={styles.errorMessage}>
+                {errors.taxaRoyalties.message}
+              </span>
+            )}
+          </div>
+
+          <div className={styles.fieldContent}>
+            <label>Senha de Acesso:</label>
+            <div className={styles.passwordWrapper}>
+              <input
+                type={mostrarSenha ? "text" : "password"} // Lógica aqui
+                {...register("senha")}
+                placeholder="Digite a senha da unidade"
+                className={errors.senha ? styles.errorInput : styles.formInput}
+              />
+
+              <button
+                type="button" // Importante: ser type="button" para não submeter o form
+                className={styles.eyeButton}
+                onClick={() => setMostrarSenha(!mostrarSenha)}
+              >
+                {mostrarSenha ? "👁️" : "🙈"}{" "}
+                {/* Pode usar ícones do Lucide-React ou FontAwesome */}
+              </button>
+            </div>
+
+            {errors.senha && (
+              <span className={styles.errorMessage}>
+                {errors.senha.message}
+              </span>
             )}
           </div>
 
@@ -107,7 +150,6 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
                     placeholder="00.000.000/0000-00"
                     value={value}
                     onValueChange={(values) => {
-                      // Envia apenas os números para o formulário
                       onChange(values.value);
                     }}
                     className={
@@ -132,7 +174,6 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
                 <option value="SP">São Paulo</option>
                 <option value="RJ">Rio de Janeiro</option>
                 <option value="MG">Minas Gerais</option>
-                {/* Adicione outros conforme necessário */}
               </select>
               {errors.uf && (
                 <span className={styles.errorMessage}>{errors.uf.message}</span>

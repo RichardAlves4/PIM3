@@ -36,10 +36,10 @@ namespace pim3.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Propriedade>> PostPropriedade(Propriedade propriedade)
         {
+            propriedade.Senha = "123mudar"; // Define a senha padrão automaticamente
             _context.Propriedades.Add(propriedade);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetPropriedade), new { id = propriedade.Id }, propriedade);
+            return CreatedAtAction("GetPropriedade", new { id = propriedade.Id }, propriedade);
         }
 
         // PUT: api/Propriedades/5 (UPDATE - Editar)
