@@ -5,7 +5,7 @@ import * as yup from "yup";
 import api from "../../services/api"; // Garanta que a importação da API esteja aqui
 
 import styles from "./formLogin.module.css";
-import { ModalAlterarSenha } from "../modalAlterarSenha/ModalAlterarSenha";
+import { ModalAlterarSenha } from "../modalAlterarSenha/ModalAlterarSenha.jsx";
 
 const schema = yup.object({
   userAccess: yup.string().required("*Campo Obrigatório"),
@@ -90,17 +90,18 @@ export function FormLogin() {
           {errors.password && (
             <span className={styles.error}>{errors.password.message}</span>
           )}
+          <button
+            type="button"
+            className={styles.linkEsqueci}
+            onClick={() => setModalAberto(true)}
+            className={styles.changePass}
+          >
+            Esqueci minha senha
+          </button>
         </div>
 
         <button type="submit" disabled={isSubmitting} className={styles.button}>
           {isSubmitting ? "Autenticando..." : "Entrar"}
-        </button>
-        <button
-          type="button"
-          className={styles.linkEsqueci}
-          onClick={() => setModalAberto(true)}
-        >
-          Esqueceu ou quer mudar a senha?
         </button>
       </form>
       <ModalAlterarSenha

@@ -51,6 +51,22 @@
   transform: scale(1.02);
 }
 
+.changePass {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  background: none;
+  border: none;
+  font-size: 14px;
+  text-align: start;
+  word-wrap: break-word;
+  text-decoration-line: underline;
+  margin-bottom: 20px;
+}
+
+.changePass:hover {
+  transform: scale(1.02);
+  color: white;
+}
+
 @media (max-width: 670px) {
   .field {
   display: flex;
@@ -59,3 +75,18 @@
   gap: 5px;
 }
 }
+
+@media (max-height:568px) {
+  .button {
+    height: 2rem;
+}
+
+.field input {
+  margin-bottom: 0rem;
+}
+
+.changePass {
+  margin-bottom: 10px;
+}
+}
+

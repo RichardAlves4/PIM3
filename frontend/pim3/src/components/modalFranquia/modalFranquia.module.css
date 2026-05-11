@@ -139,10 +139,6 @@
   padding: 0;
 }
 
-.eyeButton:hover {
-  color: #007bff; /* Cor do Dimmy's Burger ao passar o mouse */
-}
-
 @media (max-width:825px) {
     .modalContent{
         width: 80%;
