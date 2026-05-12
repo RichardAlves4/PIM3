@@ -122,7 +122,7 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
                 className={styles.eyeButton}
                 onClick={() => setMostrarSenha(!mostrarSenha)}
               >
-                {mostrarSenha ? "👁️" : "🙈"}{" "}
+                {mostrarSenha ? "🙉" : "🙈"}{" "}
                 {/* Pode usar ícones do Lucide-React ou FontAwesome */}
               </button>
             </div>

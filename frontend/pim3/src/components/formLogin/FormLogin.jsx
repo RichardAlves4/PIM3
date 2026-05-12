@@ -14,6 +14,7 @@ const schema = yup.object({
 
 export function FormLogin() {
   const [modalAberto, setModalAberto] = useState(false);
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const {
     handleSubmit,
@@ -82,11 +83,21 @@ export function FormLogin() {
 
         <div className={styles.field}>
           <label htmlFor="password">Senha:</label>
-          <input
-            type="password"
-            placeholder="Sua senha"
-            {...register("password")}
-          />
+          <div className={styles.passwordWrapper}>
+            <input
+              type={mostrarSenha ? "text" : "password"}
+              placeholder="Sua senha"
+              {...register("password")}
+            />
+
+            <button
+              type="button"
+              className={styles.eyeButton}
+              onClick={() => setMostrarSenha(!mostrarSenha)}
+            >
+              {mostrarSenha ? "🙉" : "🙈"}
+            </button>
+          </div>
           {errors.password && (
             <span className={styles.error}>{errors.password.message}</span>
           )}

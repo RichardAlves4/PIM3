@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import api from "../../services/api";
 import styles from "./modalAlterarSenha.module.css";
 
 export function ModalAlterarSenha({ isOpen, onClose }) {
-  const [mostrarSenha, setMostrarSenha] = React.useState(false);
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const { 
     register, 
@@ -93,7 +93,7 @@ export function ModalAlterarSenha({ isOpen, onClose }) {
                 className={styles.eyeButton}
                 onClick={() => setMostrarSenha(!mostrarSenha)}
               >
-                {mostrarSenha ? "👁️" : "🙈"}
+                {mostrarSenha ? "🙉" : "🙈"}
               </button>
             </div>
             {errors.novaSenha && <span className={styles.errorMessage}>{errors.novaSenha.message}</span>}
