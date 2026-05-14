@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import api from "../../services/api.js";
-import { EstoqueTable } from "../estoqueTable/EstoqueTable.jsx";
+import api from "../../../services/api.js";
+import { EstoqueTable } from "../../estoqueTable/EstoqueTable.jsx";
 import { ModalProduto } from "../modalProduto/ModalProduto.jsx";
 
 import styles from "./modalEstoqueUnidade.module.css";
 
 export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
   const [itens, setItens] = useState([]);
-  const [busca, setBusca] = useState(""); // Estado para busca
-  const [categoriaFiltro, setCategoriaFiltro] = useState(""); // Estado para categoria
+  const [busca, setBusca] = useState("");
+  const [categoriaFiltro, setCategoriaFiltro] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [modalAberto, setModalAberto] = useState(false);
   const [itemSelecionado, setItemSelecionado] = useState(null);
 
@@ -29,13 +28,11 @@ export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
   useEffect(() => {
     if (isOpen && franquia) {
       carregarEstoque();
-      // Reseta os filtros ao abrir um novo modal de franquia diferente
       setBusca("");
       setCategoriaFiltro("");
     }
   }, [isOpen, franquia]);
 
-  // Lógica de Filtro idêntica à sua HomeUser
   const itensFiltrados = itens.filter((i) => {
     const matchesBusca = i.produto?.nome
       ?.toLowerCase()
@@ -46,7 +43,6 @@ export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
     return matchesBusca && matchesCategoria;
   });
 
-  // Gera a lista de categorias únicas para o Select
   const categoriasUnicas = [
     ...new Set(itens.map((i) => i.produto?.categoria)),
   ].filter(Boolean);
@@ -54,7 +50,7 @@ export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay}>
+    <div className={styles.container}>
       <button onClick={onClose} className={styles.closeButton}>
         X
       </button>
@@ -117,7 +113,6 @@ export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
                   try {
                     await api.delete(`/Estoques/${id}`);
                     alert("Item removido com sucesso!");
-                    // Recarrega a lista para atualizar a tabela na tela
                     carregarEstoque();
                   } catch (error) {
                     console.error("Erro ao deletar:", error);
@@ -136,7 +131,6 @@ export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
           onSubmit={async (dados) => {
             try {
               const payload = {
-                // Importante: Passar o ID da propriedade/franquia aqui
                 propriedadeId: Number(franquia.id),
 
                 produto: {
@@ -144,7 +138,6 @@ export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
                   categoria: dados.categoria,
                   unidadePeso: dados.unidade,
                 },
-
                 quantidadeAtual: Number(dados.quantidadeAtual),
                 minimoSugerido: Number(dados.minimoSugerido),
                 unidade: dados.unidade,
@@ -159,7 +152,6 @@ export function ModalEstoqueUnidade({ isOpen, onClose, franquia }) {
                 await api.post("/Estoques", payload);
                 alert("Produto criado com sucesso!");
               }
-
               setModalAberto(false);
               carregarEstoque();
             } catch (error) {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
-import { FranquiaRow } from "../../components/franquiaRow/FranquiaRow.jsx";
-import { ModalFranquia } from "../../components/modalFranquia/ModalFranquia.jsx";
+import { FranquiaTable } from "../../components/franquiaTable/FranquiaTable.jsx";
+import { ModalFranquia } from "../../components/modals/modalFranquia/ModalFranquia.jsx";
 import { Header } from "../../components/header/Header.jsx";
-import { ModalEstoqueUnidade } from "../../components/modalEstoqueUnidade/ModalEstoqueUnidade.jsx";
+import { ModalEstoqueUnidade } from "../../components/modals/modalEstoqueUnidade/ModalEstoqueUnidade.jsx";
 
 import styles from "./homeAdm.module.css";
 
@@ -17,7 +17,7 @@ export function HomeAdm() {
   const [franquiaSelecionada, setFranquiaSelecionada] = useState(null);
 
   const carregarFranquias = async () => {
-    const res = await api.get("/Propriedades"); // Sua rota do C#
+    const res = await api.get("/Propriedades");
     setFranquias(res.data);
   };
 
@@ -25,7 +25,6 @@ export function HomeAdm() {
     carregarFranquias();
   }, []);
 
-  // Lógica de Busca e Filtro combinados
   const franquiasFiltradas = franquias.filter(
     (f) =>
       f.nome.toLowerCase().includes(busca.toLowerCase()) &&
@@ -95,7 +94,7 @@ export function HomeAdm() {
           </thead>
           <tbody>
             {franquiasFiltradas.map((f) => (
-              <FranquiaRow
+              <FranquiaTable
                 key={f.id}
                 franquia={f}
                 onDelete={handleDelete}
@@ -122,7 +121,6 @@ export function HomeAdm() {
         onSubmit={async (dados) => {
           const payload = {
             ...dados,
-            // Define a data: se estiver editando mantém a antiga, se for nova usa a de hoje
             dataAbertura: editando
               ? editando.dataAbertura
               : new Date().toISOString(),

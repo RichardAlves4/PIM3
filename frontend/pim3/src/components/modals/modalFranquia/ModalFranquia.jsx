@@ -6,7 +6,6 @@ import * as yup from "yup";
 
 import styles from "./modalFranquia.module.css";
 
-// Definição do Schema
 const schema = yup.object({
   nome: yup.string().required("*Campo Obrigatório"),
   razaoSocial: yup.string().required("*Campo Obrigatório"),
@@ -111,19 +110,17 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
             <label>Senha de Acesso:</label>
             <div className={styles.passwordWrapper}>
               <input
-                type={mostrarSenha ? "text" : "password"} // Lógica aqui
+                type={mostrarSenha ? "text" : "password"}
                 {...register("senha")}
                 placeholder="Digite a senha da unidade"
                 className={errors.senha ? styles.errorInput : styles.formInput}
               />
-
               <button
-                type="button" // Importante: ser type="button" para não submeter o form
+                type="button"
                 className={styles.eyeButton}
                 onClick={() => setMostrarSenha(!mostrarSenha)}
               >
                 {mostrarSenha ? "🙉" : "🙈"}{" "}
-                {/* Pode usar ícones do Lucide-React ou FontAwesome */}
               </button>
             </div>
 

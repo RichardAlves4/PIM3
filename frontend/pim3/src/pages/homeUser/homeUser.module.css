@@ -32,7 +32,7 @@
 }
 
 .button:hover {
-  box-shadow: 5px 5px 0px black; /* Efeito de brilho suave */
+  box-shadow: 5px 5px 0px black;
   transform: scale(1.02);
 }
 
@@ -61,7 +61,7 @@
 }
 
 .selectInput::-webkit-scrollbar-thumb {
-  background: #009879; /* Cor que você usou no cabeçalho */
+  background: #009879;
   border-radius: 10px;
 }
 
@@ -88,7 +88,7 @@
     }
 
     .tableWrapper::-webkit-scrollbar-thumb {
-    background: #2A9D8F; /* A cor verde que você está usando */
+    background: #2A9D8F;
     border-radius: 10px;
   }
 

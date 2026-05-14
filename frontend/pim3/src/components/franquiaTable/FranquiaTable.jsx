@@ -1,7 +1,7 @@
 import React from "react";
-import styles from './franquiaRow.module.css';
+import styles from './franquiaTable.module.css';
 
-export function FranquiaRow({ franquia, onDelete, onEdit, onAbrirEstoque }) {
+export function FranquiaTable({ franquia, onDelete, onEdit, onAbrirEstoque }) {
   return (
     <tr className={styles.row}>
       <td>{franquia.nome}</td>
@@ -16,7 +16,7 @@ export function FranquiaRow({ franquia, onDelete, onEdit, onAbrirEstoque }) {
       </td>
       <td className={styles.actions}>
         <button 
-          className={styles.btnEstoque} 
+          className={styles.buttonEstoque} 
           onClick={() => onAbrirEstoque(franquia)}
           title="Ver Estoque"
         >
@@ -24,14 +24,14 @@ export function FranquiaRow({ franquia, onDelete, onEdit, onAbrirEstoque }) {
         </button>
         <button 
           onClick={() => onEdit(franquia)} 
-          className={styles.btnEditar}
+          className={styles.buttonEditar}
           title="Editar Franquia"
         >
           Editar
         </button>
         <button 
           onClick={() => onDelete(franquia.id)} 
-          className={styles.btnRemover}
+          className={styles.buttonRemover}
           title="Excluir Franquia"
         >
           Excluir

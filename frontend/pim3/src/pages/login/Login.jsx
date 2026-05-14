@@ -2,7 +2,6 @@ import React from 'react'
 import { FormLogin } from '../../components/formLogin/FormLogin'
 
 import styles from './login.module.css'
-import { Link } from 'react-router'
 
 export function Login() {
   return (

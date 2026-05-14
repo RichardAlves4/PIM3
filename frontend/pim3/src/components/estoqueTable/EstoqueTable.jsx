@@ -1,4 +1,5 @@
 import React from "react";
+
 import styles from "./estoqueTable.module.css";
 
 export function EstoqueTable({ itens, onEdit, onDelete }) {

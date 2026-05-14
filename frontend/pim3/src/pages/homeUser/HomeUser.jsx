@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api.js";
 import { EstoqueTable } from "../../components/estoqueTable/EstoqueTable.jsx";
-import { ModalProduto } from "../../components/modalProduto/ModalProduto.jsx";
+import { ModalProduto } from "../../components/modals/modalProduto/ModalProduto.jsx";
 
 import styles from "./homeUser.module.css";
 import { Header } from "../../components/header/Header.jsx";

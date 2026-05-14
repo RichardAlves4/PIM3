@@ -19,14 +19,10 @@
     border-radius: 8px;
     width: 50%;
     height: 85vh;   
-    max-width: 600px;
+    max-width: 1000px;
     overflow: hidden;
     flex-direction: column;
     
-}
-
-.modalContent h2 {
-    margin-bottom: 10px;
 }
 
 .form {
@@ -64,6 +60,19 @@
     color: rgb(214, 0, 0);
 }
 
+.doubleFieldContainer {
+    display: flex;
+    width: 80%;
+    gap: 20px;
+}
+
+.doubleFieldContent {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 30px;
+}
+
 .actions {
     display: flex;
     flex-direction: column;
@@ -84,7 +93,7 @@
 }
 
 .btnSubmit:hover {
-  box-shadow: 5px 5px 0px black; /* Efeito de brilho suave */
+  box-shadow: 5px 5px 0px black;
   transform: scale(1.02);
 }
 
@@ -113,7 +122,7 @@
 
 .passwordWrapper input {
   width: 100%;
-  padding-right: 40px; 
+  padding-right: 40px;
 }
 
 .eyeButton {
@@ -134,5 +143,21 @@
     .modalContent{
         width: 80%;
     }
+    .doubleFieldContainer {
+    display: flex;flex-direction: column;
+    width: 80%;
+    gap: 0px;
+
+}
+    .doubleFieldContent {
+    
+    width: 100%; 
+    margin-bottom: 30px;
+    }
+
+    .fieldContent {
+    margin-bottom: 10px;
 }
 
+    
+}
