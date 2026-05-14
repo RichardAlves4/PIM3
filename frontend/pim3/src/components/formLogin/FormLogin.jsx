@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import api from "../../services/api"; // Garanta que a importação da API esteja aqui
+import api from "../../services/api";
+import { ModalAlterarSenha } from "../modals/modalAlterarSenha/ModalAlterarSenha.jsx";
 
 import styles from "./formLogin.module.css";
-import { ModalAlterarSenha } from "../modalAlterarSenha/ModalAlterarSenha.jsx";
 
 const schema = yup.object({
   userAccess: yup.string().required("*Campo Obrigatório"),
@@ -13,8 +13,8 @@ const schema = yup.object({
 });
 
 export function FormLogin() {
-  const [modalAberto, setModalAberto] = useState(false);
-  const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   const {
     handleSubmit,
@@ -26,37 +26,33 @@ export function FormLogin() {
     resolver: yupResolver(schema),
   });
 
-  // A LÓGICA DEVE FICAR AQUI DENTRO
   const realizarLogin = async (data) => {
     try {
-      // Busca as unidades no SQL Server via sua API
       const response = await api.get("/Propriedades");
-      const unidades = response.data;
+      const propriedades = response.data;
 
-      // Procura a unidade/franquia pelo nome
-      const usuarioEncontrado = unidades.find(
-        (u) => u.nome === data.userAccess && u.senha === data.password,
+      const authentication = propriedades.find(
+        (pro) => pro.nome === data.userAccess && pro.senha === data.password,
       );
 
-      if (usuarioEncontrado) {
+      if (authentication) {
         localStorage.setItem(
           "unidadeLogada",
-          JSON.stringify(usuarioEncontrado),
+          JSON.stringify(authentication),
         );
         localStorage.setItem(
           "isAdmin",
-          usuarioEncontrado.ehFranqueadora ? "true" : "false",
+          authentication.ehFranqueadora ? "true" : "false",
         );
         localStorage.setItem("token_simulado", "logado_com_sucesso");
 
-        alert(`Bem-vindo, ${usuarioEncontrado.nome}!`);
+        alert(`Bem-vindo, ${authentication.nome}!`);
 
-        // Redireciona dependendo se é Franqueadora ou Franquia
-        window.location.href = usuarioEncontrado.ehFranqueadora
+        window.location.href = authentication.ehFranqueadora
           ? "/admin"
           : "/user";
       } else {
-        alert("Usuário não encontrado ou senha incorreta!");
+        alert("Usuário ou senha incorretos!");
       }
     } catch (error) {
       console.error("Erro ao validar login:", error);
@@ -83,19 +79,19 @@ export function FormLogin() {
 
         <div className={styles.field}>
           <label htmlFor="password">Senha:</label>
-          <div className={styles.passwordWrapper}>
+          <div className={styles.passwordContainer}>
             <input
-              type={mostrarSenha ? "text" : "password"}
+              type={showPass ? "text" : "password"}
               placeholder="Sua senha"
               {...register("password")}
             />
 
             <button
               type="button"
-              className={styles.eyeButton}
-              onClick={() => setMostrarSenha(!mostrarSenha)}
+              className={styles.showPassButton}
+              onClick={() => setShowPass(!showPass)}
             >
-              {mostrarSenha ? "🙉" : "🙈"}
+              {showPass ? "🙉" : "🙈"}
             </button>
           </div>
           {errors.password && (
@@ -103,8 +99,7 @@ export function FormLogin() {
           )}
           <button
             type="button"
-            className={styles.linkEsqueci}
-            onClick={() => setModalAberto(true)}
+            onClick={() => setOpen(true)}
             className={styles.changePass}
           >
             Esqueci minha senha
@@ -116,8 +111,8 @@ export function FormLogin() {
         </button>
       </form>
       <ModalAlterarSenha
-        isOpen={modalAberto}
-        onClose={() => setModalAberto(false)}
+        isOpen={open}
+        onClose={() => setOpen(false)}
       />
     </>
   );

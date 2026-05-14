@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import api from "../../services/api";
+import api from "../../../services/api";
 import styles from "./modalAlterarSenha.module.css";
 
 export function ModalAlterarSenha({ isOpen, onClose }) {
@@ -15,26 +15,26 @@ export function ModalAlterarSenha({ isOpen, onClose }) {
 
   const handleTrocarSenha = async (data) => {
     try {
-      const res = await api.get("/Propriedades");
-      const unidade = res.data.find(
+      const response = await api.get("/Propriedades");
+      const propriedades = response.data.find(
         (u) =>
           u.nome.toLowerCase() === data.usuario.toLowerCase() &&
           u.cnpj === data.cnpj
       );
 
-      if (!unidade) {
-        alert("Dados de validação incorretos! Verifique o Nome e o CNPJ.");
+      if (!propriedades) {
+        alert("Nome ou CNPJ incorretos");
         return;
       }
 
       const payload = {
-        ...unidade,
-        senha: data.novaSenha, // Usando o nome correto do campo
+        ...propriedades,
+        senha: data.novaSenha,
       };
 
-      await api.put(`/Propriedades/${unidade.id}`, payload);
+      await api.put(`/Propriedades/${propriedades.id}`, payload);
 
-      alert("Senha alterada com sucesso! Agora você já pode logar.");
+      alert("Senha alterada com sucesso!");
       reset();
       onClose();
     } catch (error) {
@@ -48,7 +48,7 @@ export function ModalAlterarSenha({ isOpen, onClose }) {
   return (
     <div className={styles.container}>
       <div className={styles.modalContent}>
-        <h2>Alterar Senha</h2>
+        <h2>Mudar Senha</h2>
         <p>Valide os dados da sua franquia</p>
 
         <form onSubmit={handleSubmit(handleTrocarSenha)} className={styles.form}>
@@ -59,7 +59,7 @@ export function ModalAlterarSenha({ isOpen, onClose }) {
             <input
               {...register("usuario", { required: "*Nome obrigatório" })}
               className={errors.usuario ? styles.errorInput : styles.formInput}
-              placeholder="Nome do Usuário/Unidade"
+              placeholder="Nome da unidade"
             />
             {errors.usuario && <span className={styles.errorMessage}>{errors.usuario.message}</span>}
           </div>
@@ -78,7 +78,7 @@ export function ModalAlterarSenha({ isOpen, onClose }) {
           {/* Campo Nova Senha */}
           <div className={styles.fieldContent}>
             <label>Nova Senha:</label>
-            <div className={styles.passwordWrapper}>
+            <div className={styles.passwordContainer}>
               <input
                 type={mostrarSenha ? "text" : "password"}
                 {...register("novaSenha", { 
@@ -90,7 +90,7 @@ export function ModalAlterarSenha({ isOpen, onClose }) {
               />
               <button
                 type="button"
-                className={styles.eyeButton}
+                className={styles.showPassButton}
                 onClick={() => setMostrarSenha(!mostrarSenha)}
               >
                 {mostrarSenha ? "🙉" : "🙈"}
@@ -99,10 +99,10 @@ export function ModalAlterarSenha({ isOpen, onClose }) {
             {errors.novaSenha && <span className={styles.errorMessage}>{errors.novaSenha.message}</span>}
           </div>
 
-          <div className={styles.actions}>
+          <div className={styles.buttonsContainer}>
             <button 
               type="submit" 
-              className={styles.btnSubmit} 
+              className={styles.buttonSubmit} 
               disabled={isSubmitting}
             >
               {isSubmitting ? "Salvando..." : "Atualizar Senha"}
@@ -113,7 +113,7 @@ export function ModalAlterarSenha({ isOpen, onClose }) {
                 reset();
                 onClose();
               }}
-              className={styles.btnCancel}
+              className={styles.buttonCancel}
             >
               Sair
             </button>

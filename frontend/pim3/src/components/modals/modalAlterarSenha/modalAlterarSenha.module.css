@@ -19,10 +19,14 @@
     border-radius: 8px;
     width: 50%;
     height: 85vh;   
-    max-width: 1000px;
+    max-width: 600px;
     overflow: hidden;
     flex-direction: column;
     
+}
+
+.modalContent h2 {
+    margin-bottom: 10px;
 }
 
 .form {
@@ -60,27 +64,14 @@
     color: rgb(214, 0, 0);
 }
 
-.doubleFieldContainer {
-    display: flex;
-    width: 80%;
-    gap: 20px;
-}
-
-.doubleFieldContent {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    margin-bottom: 30px;
-}
-
-.actions {
+.buttonsContainer {
     display: flex;
     flex-direction: column;
     justify-content: end;
     gap: 20px;
 }
 
-.btnSubmit {
+.buttonSubmit {
     background-color: #2A9D8F;
     color: #ffff;
     width: 10rem;
@@ -92,12 +83,12 @@
     transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
-.btnSubmit:hover {
+.buttonSubmit:hover {
   box-shadow: 5px 5px 0px black; /* Efeito de brilho suave */
   transform: scale(1.02);
 }
 
-.btnCancel {
+.buttonCancel {
   background-color: rgb(231, 76, 60);
   color: #ffff;
   width: 10rem;
@@ -109,23 +100,23 @@
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
-.btnCancel:hover {
-  box-shadow: 5px 5px 0px black; /* Efeito de brilho suave */
+.buttonCancel:hover {
+  box-shadow: 5px 5px 0px black;
   transform: scale(1.02);
 }
 
-.passwordWrapper {
+.passwordContainer {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.passwordWrapper input {
+.passwordContainer input {
   width: 100%;
-  padding-right: 40px; /* Espaço para o ícone não cobrir o texto */
+  padding-right: 40px; 
 }
 
-.eyeButton {
+.showPassButton {
   position: absolute;
   right: 10px;
   background: none;
@@ -143,21 +134,5 @@
     .modalContent{
         width: 80%;
     }
-    .doubleFieldContainer {
-    display: flex;flex-direction: column;
-    width: 80%;
-    gap: 0px;
-
-}
-    .doubleFieldContent {
-    
-    width: 100%; 
-    margin-bottom: 30px;
-    }
-
-    .fieldContent {
-    margin-bottom: 10px;
 }
 
-    
-}
