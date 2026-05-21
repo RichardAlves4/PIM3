@@ -5,3 +5,11 @@
   box-sizing: border-box;
   font-family: Jockey One; 
 }
+
+[vw] {
+  z-index: 999999 !important;
+}
+
+.vw-plugin-wrapper {
+  z-index: 999999 !important;
+}
