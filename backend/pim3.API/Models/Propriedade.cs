@@ -14,5 +14,8 @@
 
         // Relacionamento: Uma propriedade tem muitos itens no estoque
         public ICollection<Estoque> Estoques { get; set; } = new List<Estoque>();
+
+        // Relacionamento: Uma propriedade tem muitos produtos
+        public ICollection<Produto> Produtos { get; set; } = new List<Produto>();
     }
 }

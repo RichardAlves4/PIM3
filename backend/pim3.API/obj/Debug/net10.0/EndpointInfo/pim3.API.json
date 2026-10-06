@@ -544,6 +544,13 @@
               "$ref": "#/components/schemas/Estoque"
             },
             "nullable": true
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Produto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

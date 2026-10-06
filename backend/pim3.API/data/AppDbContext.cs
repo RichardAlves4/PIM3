@@ -27,17 +27,22 @@ namespace pim3.API.Data
             modelBuilder.Entity<Propriedade>()
                 .HasIndex(p => p.Cnpj).IsUnique();
 
+            // Define o valor padrão da senha como "123mudar" para novos registros de Propriedade
+            modelBuilder.Entity<Propriedade>()
+                .Property(p => p.Senha)
+                .HasDefaultValue("123mudar");
+
             // Desativa o Cascade nativo do EF Core para que 
             // a Trigger do SQL Server faça a limpeza controlada.
             modelBuilder.Entity<Estoque>()
                 .HasOne(e => e.Propriedade)
-                .WithMany()
+                .WithMany(p => p.Estoques)
                 .HasForeignKey(e => e.PropriedadeId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Estoque>()
                 .HasOne(e => e.Produto)
-                .WithMany()
+                .WithMany(pr => pr.Estoques)
                 .HasForeignKey(e => e.ProdutoId)
                 .OnDelete(DeleteBehavior.NoAction);
         }

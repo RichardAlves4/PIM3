@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pim3.API.Data;
 
@@ -11,9 +12,11 @@ using pim3.API.Data;
 namespace pim3.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261006163109_AdicionaValorPadraoSenha")]
+    partial class AdicionaValorPadraoSenha
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,7 +73,7 @@ namespace pim3.API.Migrations
 
                     b.HasIndex("PropriedadeId1");
 
-                    b.ToTable("Estoques", (string)null);
+                    b.ToTable("Estoques");
                 });
 
             modelBuilder.Entity("pim3.API.Models.Produto", b =>
@@ -110,7 +113,7 @@ namespace pim3.API.Migrations
 
                     b.HasIndex("PropriedadeId");
 
-                    b.ToTable("Produtos", (string)null);
+                    b.ToTable("Produtos");
                 });
 
             modelBuilder.Entity("pim3.API.Models.Propriedade", b =>
@@ -158,7 +161,7 @@ namespace pim3.API.Migrations
                     b.HasIndex("Cnpj")
                         .IsUnique();
 
-                    b.ToTable("Propriedades", (string)null);
+                    b.ToTable("Propriedades");
                 });
 
             modelBuilder.Entity("pim3.API.Models.Estoque", b =>
