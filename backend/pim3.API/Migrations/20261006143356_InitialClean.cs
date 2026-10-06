@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace pim3.API.Migrations
 {
     /// <inheritdoc />
-    public partial class AdicionarSenhaFinal : Migration
+    public partial class InitialClean : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -68,7 +68,7 @@ namespace pim3.API.Migrations
                     MinimoSugerido = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Unidade = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DataFabricacao = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Validade = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Validade = table.Column<DateTime>(type: "datetime2", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -77,14 +77,12 @@ namespace pim3.API.Migrations
                         name: "FK_Estoques_Produtos_ProdutoId",
                         column: x => x.ProdutoId,
                         principalTable: "Produtos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Estoques_Propriedades_PropriedadeId",
                         column: x => x.PropriedadeId,
                         principalTable: "Propriedades",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

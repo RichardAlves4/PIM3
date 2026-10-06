@@ -17,7 +17,7 @@ namespace pim3.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.6")
+                .HasAnnotation("ProductVersion", "10.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -40,7 +40,13 @@ namespace pim3.API.Migrations
                     b.Property<int>("ProdutoId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProdutoId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("PropriedadeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PropriedadeId1")
                         .HasColumnType("int");
 
                     b.Property<decimal>("QuantidadeAtual")
@@ -58,7 +64,11 @@ namespace pim3.API.Migrations
 
                     b.HasIndex("ProdutoId");
 
+                    b.HasIndex("ProdutoId1");
+
                     b.HasIndex("PropriedadeId");
+
+                    b.HasIndex("PropriedadeId1");
 
                     b.ToTable("Estoques");
                 });
@@ -152,16 +162,24 @@ namespace pim3.API.Migrations
             modelBuilder.Entity("pim3.API.Models.Estoque", b =>
                 {
                     b.HasOne("pim3.API.Models.Produto", "Produto")
-                        .WithMany("Estoques")
+                        .WithMany()
                         .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("pim3.API.Models.Propriedade", "Propriedade")
+                    b.HasOne("pim3.API.Models.Produto", null)
                         .WithMany("Estoques")
+                        .HasForeignKey("ProdutoId1");
+
+                    b.HasOne("pim3.API.Models.Propriedade", "Propriedade")
+                        .WithMany()
                         .HasForeignKey("PropriedadeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("pim3.API.Models.Propriedade", null)
+                        .WithMany("Estoques")
+                        .HasForeignKey("PropriedadeId1");
 
                     b.Navigation("Produto");
 

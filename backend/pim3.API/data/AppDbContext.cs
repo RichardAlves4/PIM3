@@ -26,6 +26,20 @@ namespace pim3.API.Data
             // Garante que o CNPJ seja único (Regra de Negócio)
             modelBuilder.Entity<Propriedade>()
                 .HasIndex(p => p.Cnpj).IsUnique();
+
+            // Desativa o Cascade nativo do EF Core para que 
+            // a Trigger do SQL Server faça a limpeza controlada.
+            modelBuilder.Entity<Estoque>()
+                .HasOne(e => e.Propriedade)
+                .WithMany()
+                .HasForeignKey(e => e.PropriedadeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Estoque>()
+                .HasOne(e => e.Produto)
+                .WithMany()
+                .HasForeignKey(e => e.ProdutoId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
