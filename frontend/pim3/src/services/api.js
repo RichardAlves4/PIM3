@@ -4,12 +4,14 @@ import axios from 'axios';
 const api = axios.create({
     // Define a URL base do servidor backend. 
     // Todas as chamadas posteriores usando 'api.get' ou 'api.post' anexarão o endpoint a este caminho.
-    baseURL:'https://localhost:7156/api',
+    baseURL:'https://parted-helium-ranger.ngrok-free.dev/api',
     
     // Configura os cabeçalhos padrão para todas as requisições feitas por esta instância
     headers: {
     // Informa à API que o corpo das requisições enviadas (payload) estará no formato estruturado JSON
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true'
+    
   }
 });
 
