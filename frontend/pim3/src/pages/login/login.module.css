@@ -36,14 +36,14 @@
 }
   .greenContainer {
     display: flex;
-    height: 80%;
+    height: 85%;
     border-radius: 15px;
 } 
 }
 
 @media (max-width: 550px) {
   .greenContainer {  
-    width: 70%;  
+    width: 80%;
 }
 }
 
@@ -55,7 +55,7 @@
 }
 
   .greenContainer {  
-    gap: 0;  
+    gap: 0; 
   }
 }
 
