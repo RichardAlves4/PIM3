@@ -118,3 +118,18 @@
 }
 }
 
+@media (max-width: 550px) {
+  .form {
+    width: 100% !important ;
+  } 
+
+  .field {  
+    width: 80%;
+    font-size: 20px;
+  } 
+
+  .changePass {
+  font-size: 15px;
+}
+}
+

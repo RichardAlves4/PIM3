@@ -36,14 +36,20 @@
 }
   .greenContainer {
     display: flex;
-    height: 80%;
+    height: 85%;
     border-radius: 15px;
 } 
 }
 
 @media (max-width: 550px) {
   .greenContainer {  
-    width: 70%;  
+    width: 80%;
+}
+
+    .logoImg{
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
 }
 }
 
@@ -55,18 +61,16 @@
 }
 
   .greenContainer {  
-    gap: 0;  
+    gap: 0; 
   }
 }
 
 @media (max-height:568px) {
-    .logoImg{
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-}
+    .logoImg {
+    display: none;
+  }
 
   .container h1 {
     font-size: 24px;
-}
+  }
 }
