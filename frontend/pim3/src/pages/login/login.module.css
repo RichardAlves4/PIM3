@@ -45,6 +45,12 @@
   .greenContainer {  
     width: 80%;
 }
+
+    .logoImg{
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+}
 }
 
 @media (max-width: 320px) {
@@ -60,13 +66,11 @@
 }
 
 @media (max-height:568px) {
-    .logoImg{
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-}
+    .logoImg {
+    display: none;
+  }
 
   .container h1 {
     font-size: 24px;
-}
+  }
 }

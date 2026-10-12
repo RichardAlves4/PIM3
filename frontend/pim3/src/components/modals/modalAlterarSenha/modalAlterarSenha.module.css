@@ -138,3 +138,24 @@
     }
 }
 
+@media (max-height:568px) {
+    .fieldContent {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin-bottom: 10px;
+    }
+    
+    .errorMessage {
+        font-size: 16px;
+    }
+    
+    .buttonsContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        gap: 10px;
+    }
+
+
+}
