@@ -12,31 +12,38 @@ import * as yup from "yup";
 import styles from "./modalFranquia.module.css";
 
 // Definição do esquema de dados exigido pela API da franqueadora
-const schema = yup.object({
-  nome: yup.string().required("*Campo Obrigatório"),
-  razaoSocial: yup.string().required("*Campo Obrigatório"),
-  taxaRoyalties: yup
-    .number()
-    // Intercepta e converte strings vazias ou caracteres inválidos para 'undefined' impedindo erros nativos de cast de tipo
-    .transform((value) => (isNaN(value) ? undefined : value))
-    .typeError("Informe um número")
-    .min(0, "Mínimo 0")
-    .required("*Campo Obrigatório"),
-  cnpj: yup
-    .string()
-    .required("*Campo Obrigatório")
-    // Expressão regular (Regex): Garante que a string limpa gravada no banco tenha exatamente 14 dígitos numéricos sequenciais
-    .matches(/^\d{14}$/, "O CNPJ deve conter 14 números"),
-  senha: yup
-    .string()
-    .min(6, "Mínimo 6 caracteres")
-    .required("*Campo Obrigatório"),
-  uf: yup.string().required("*Obrigatório"),
+const getSchema = (isEditing) => 
+  yup.object({
+    nome: yup.string().required("*Campo Obrigatório"),
+    razaoSocial: yup.string().required("*Campo Obrigatório"),
+    taxaRoyalties: yup
+      .number()
+      // Intercepta e converte strings vazias ou caracteres inválidos para 'undefined' impedindo erros nativos de cast de tipo
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .typeError("Informe um número")
+      .min(0, "Mínimo 0")
+      .required("*Campo Obrigatório"),
+    cnpj: yup
+      .string()
+      .required("*Campo Obrigatório")
+      // Expressão regular (Regex): Garante que a string limpa gravada no banco tenha exatamente 14 dígitos numéricos sequenciais
+      .matches(/^\d{14}$/, "O CNPJ deve conter 14 números"),
+    senha: isEditing
+      ? yup
+        .string()
+        .min(6, "Mínimo 6 caracteres")
+        .required("*Campo Obrigatório")
+      : yup.string().notRequired(),
+    uf: yup
+      .string()
+      .required("*Obrigatório"),
 });
 
 export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
   // Estado local booleano que altera o tipo do input de senha (password <-> text)
   const [mostrarSenha, setMostrarSenha] = React.useState(false);
+
+  const isEditing = Boolean(dadosIniciais);
 
   const {
     register,
@@ -45,7 +52,7 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
     control, // Objeto de referência necessário para alimentar as dependências do subcomponente <Controller />
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(getSchema(isEditing)),
     defaultValues: dadosIniciais || {}, // Inicializa as propriedades do formulário baseando-se no objeto fornecido
   });
 
@@ -77,7 +84,7 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
       <div className={styles.modalContent}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           {/* Título contextual adaptado dinamicamente */}
-          <h2>{dadosIniciais ? "Editar Franquia" : "Criar Franquia"}</h2>
+          <h2>{isEditing ? "Editar Franquia" : "Criar Franquia"}</h2>
           
           <div className={styles.fieldContent}>
             <label>Nome:</label>
@@ -124,30 +131,32 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
           </div>
 
           {/* Campo de senha customizado com botão de visibilidade */}
-          <div className={styles.fieldContent}>
-            <label>Senha de Acesso:</label>
-            <div className={styles.passwordWrapper}>
-              <input
-                type={mostrarSenha ? "text" : "password"} // Altera dinamicamente o mascaramento do caractere digitado
-                {...register("senha")}
-                placeholder="Digite a senha da unidade"
-                className={errors.senha ? styles.errorInput : styles.formInput}
-              />
-              <button
-                type="button" // Tipo explicitado para que o clique não submeta acidentalmente o formulário HTML
-                className={styles.eyeButton}
-                onClick={() => setMostrarSenha(!mostrarSenha)} // Inverte o estado atual de visualização
-              >
-                {mostrarSenha ? "🙉" : "🙈"}{" "}
-              </button>
-            </div>
+          {isEditing && (
+            <div className={styles.fieldContent}>
+              <label>Senha de Acesso:</label>
+              <div className={styles.passwordWrapper}>
+                <input
+                  type={mostrarSenha ? "text" : "password"} // Altera dinamicamente o mascaramento do caractere digitado
+                  {...register("senha")}
+                  placeholder="Digite a nova senha"
+                  className={errors.senha ? styles.errorInput : styles.formInput}
+                />
+                <button
+                  type="button" // Tipo explicitado para que o clique não submeta acidentalmente o formulário HTML
+                  className={styles.eyeButton}
+                  onClick={() => setMostrarSenha(!mostrarSenha)} // Inverte o estado atual de visualização
+                >
+                  {mostrarSenha ? "🙉" : "🙈"}{" "}
+                </button>
+              </div>
 
-            {errors.senha && (
-              <span className={styles.errorMessage}>
-                {errors.senha.message}
-              </span>
-            )}
-          </div>
+              {errors.senha && (
+                <span className={styles.errorMessage}>
+                  {errors.senha.message}
+                </span>
+              )}
+            </div>
+          )}
 
           <div className={styles.doubleFieldContainer}>
             {/* Bloco Isolado do CNPJ com gerenciador controlado de máscaras estruturadas */}
