@@ -23,7 +23,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       {/* Exibição do logotipo da marca */}
-      <img src="./src/assets/logo.jpg" alt="logo" />
+      <img src="/images/logo.jpg" alt="logo" />
       
       {/* Título comercial fixo do sistema */}
       <h1>Dimmy's Burger</h1>
