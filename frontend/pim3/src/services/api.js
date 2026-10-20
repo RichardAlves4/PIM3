@@ -4,7 +4,8 @@ import axios from 'axios';
 const api = axios.create({
     // Define a URL base do servidor backend. 
     // Todas as chamadas posteriores usando 'api.get' ou 'api.post' anexarão o endpoint a este caminho.
-    baseURL:'https://parted-helium-ranger.ngrok-free.dev/api',
+    // baseURL:'https://parted-helium-ranger.ngrok-free.dev/api',
+    baseURL:'https://grout-replica-ripeness.ngrok-free.dev',
     
     // Configura os cabeçalhos padrão para todas as requisições feitas por esta instância
     headers: {
