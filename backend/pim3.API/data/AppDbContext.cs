@@ -32,6 +32,9 @@ namespace pim3.API.Data
                 .Property(p => p.Senha)
                 .HasDefaultValue("123mudar");
 
+            modelBuilder.Entity<Propriedade>()
+                .ToTable(tb => tb.HasTrigger("TR_Propriedades_DeleteCascade"));
+
             // Desativa o Cascade nativo do EF Core para que 
             // a Trigger do SQL Server faça a limpeza controlada.
             modelBuilder.Entity<Estoque>()
