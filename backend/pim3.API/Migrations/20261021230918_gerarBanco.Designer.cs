@@ -12,8 +12,8 @@ using pim3.API.Data;
 namespace pim3.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261009183327_EstruturaLimpaCorrigida")]
-    partial class EstruturaLimpaCorrigida
+    [Migration("20261021230918_gerarBanco")]
+    partial class gerarBanco
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,7 +151,12 @@ namespace pim3.API.Migrations
                     b.HasIndex("Cnpj")
                         .IsUnique();
 
-                    b.ToTable("Propriedades");
+                    b.ToTable("Propriedades", t =>
+                        {
+                            t.HasTrigger("TR_Propriedades_DeleteCascade");
+                        });
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("pim3.API.Models.Estoque", b =>

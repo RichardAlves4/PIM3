@@ -148,7 +148,12 @@ namespace pim3.API.Migrations
                     b.HasIndex("Cnpj")
                         .IsUnique();
 
-                    b.ToTable("Propriedades");
+                    b.ToTable("Propriedades", t =>
+                        {
+                            t.HasTrigger("TR_Propriedades_DeleteCascade");
+                        });
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("pim3.API.Models.Estoque", b =>
