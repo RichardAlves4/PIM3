@@ -210,7 +210,7 @@ export function ModalFranquia({ isOpen, onClose, onSubmit, dadosIniciais }) {
 
           <div className={styles.actions}>
             <button type="submit" className={styles.btnSubmit}>
-              {dadosIniciais ? "Salvar Alterações" : "Cadastrar Franquia"}
+              {dadosIniciais ? "Salvar" : "Cadastrar"}
             </button>
             <button
               type="button"

@@ -3637,23 +3637,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Marcio\\.nuget\\packages\\": {},
+    "C:\\Users\\Richard\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Marcio\\Documents\\GitHub\\PIM3\\backend\\pim3.API\\pim3.API.csproj",
+      "projectUniqueName": "C:\\Users\\Richard\\Documents\\GitHub\\PIM3\\backend\\pim3.API\\pim3.API.csproj",
       "projectName": "pim3.API",
-      "projectPath": "C:\\Users\\Marcio\\Documents\\GitHub\\PIM3\\backend\\pim3.API\\pim3.API.csproj",
-      "packagesPath": "C:\\Users\\Marcio\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Marcio\\Documents\\GitHub\\PIM3\\backend\\pim3.API\\obj\\",
+      "projectPath": "C:\\Users\\Richard\\Documents\\GitHub\\PIM3\\backend\\pim3.API\\pim3.API.csproj",
+      "packagesPath": "C:\\Users\\Richard\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Richard\\Documents\\GitHub\\PIM3\\backend\\pim3.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Marcio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Richard\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

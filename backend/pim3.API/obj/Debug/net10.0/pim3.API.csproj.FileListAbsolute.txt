@@ -340,3 +340,5 @@ C:\Users\Marcio\Documents\GitHub\PIM3\backend\pim3.API\bin\Debug\net10.0\runtime
 C:\Users\Marcio\Documents\GitHub\PIM3\backend\pim3.API\bin\Debug\net10.0\runtimes\win-x86\native\msalruntime_x86.dll
 C:\Users\Marcio\Documents\GitHub\PIM3\backend\pim3.API\bin\Debug\net10.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\Marcio\Documents\GitHub\PIM3\backend\pim3.API\bin\Debug\net10.0\runtimes\win\lib\net10.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\Richard\Documents\GitHub\PIM3\backend\pim3.API\bin\Debug\net10.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\Richard\Documents\GitHub\PIM3\backend\pim3.API\bin\Debug\net10.0\runtimes\win\lib\net10.0\System.Security.Cryptography.Pkcs.dll
